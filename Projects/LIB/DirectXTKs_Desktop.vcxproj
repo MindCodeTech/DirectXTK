@@ -354,7 +354,7 @@
       <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <ProgramDataBaseFileName>$(OutDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(OutDir)$(TargetName)_vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
@@ -380,7 +380,7 @@
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>copy $(OutDir)$(TargetName)$(TargetExt) $(DIRECTXTK_ROOT)\Lib32
-copy $(OutDir)$(TargetName).pdb $(DIRECTXTK_ROOT)\Lib32</Command>
+copy $(OutDir)$(TargetName)_vc$(PlatformToolsetVersion).pdb $(DIRECTXTK_ROOT)\Lib32</Command>
     </PostBuildEvent>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -403,7 +403,7 @@ copy $(OutDir)$(TargetName).pdb $(DIRECTXTK_ROOT)\Lib32</Command>
       <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <ProgramDataBaseFileName>$(OutDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(OutDir)$(TargetName)_vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
@@ -428,7 +428,7 @@ copy $(OutDir)$(TargetName).pdb $(DIRECTXTK_ROOT)\Lib32</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>copy $(OutDir)$(TargetName)$(TargetExt) $(DIRECTXTK_ROOT)\Lib64
-copy $(OutDir)$(TargetName).pdb $(DIRECTXTK_ROOT)\Lib64</Command>
+copy $(OutDir)$(TargetName)_vc$(PlatformToolsetVersion).pdb $(DIRECTXTK_ROOT)\Lib64</Command>
     </PostBuildEvent>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -450,7 +450,8 @@ copy $(OutDir)$(TargetName).pdb $(DIRECTXTK_ROOT)\Lib64</Command>
       <FloatingPointModel>Fast</FloatingPointModel>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <DebugInformationFormat>None</DebugInformationFormat>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ProgramDataBaseFileName>$(OutDir)$(TargetName)_vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
@@ -475,7 +476,8 @@ copy $(OutDir)$(TargetName).pdb $(DIRECTXTK_ROOT)\Lib64</Command>
     </Manifest>
     <PreBuildEvent />
     <PostBuildEvent>
-      <Command>copy $(OutDir)$(TargetName)$(TargetExt) $(DIRECTXTK_ROOT)\Lib32</Command>
+      <Command>copy $(OutDir)$(TargetName)$(TargetExt) $(DIRECTXTK_ROOT)\Lib32
+copy $(OutDir)$(TargetName)_vc$(PlatformToolsetVersion).pdb $(DIRECTXTK_ROOT)\Lib32</Command>
     </PostBuildEvent>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -501,8 +503,9 @@ copy $(OutDir)$(TargetName).pdb $(DIRECTXTK_ROOT)\Lib64</Command>
       <FloatingPointModel>Fast</FloatingPointModel>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <DebugInformationFormat>None</DebugInformationFormat>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <ProgramDataBaseFileName>$(OutDir)$(TargetName)_vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
@@ -528,7 +531,7 @@ copy $(OutDir)$(TargetName).pdb $(DIRECTXTK_ROOT)\Lib64</Command>
     <PreBuildEvent />
     <PostBuildEvent>
       <Command>copy $(OutDir)$(TargetName)$(TargetExt) $(DIRECTXTK_ROOT)\Lib64
-</Command>
+copy $(OutDir)$(TargetName)_vc$(PlatformToolsetVersion).pdb $(DIRECTXTK_ROOT)\Lib64</Command>
     </PostBuildEvent>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -547,7 +550,7 @@ copy $(OutDir)$(TargetName).pdb $(DIRECTXTK_ROOT)\Lib64</Command>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dxutstdafx.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ProgramDataBaseFileName>$(OutDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(OutDir)$(TargetName)_vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
@@ -574,8 +577,7 @@ copy $(OutDir)$(TargetName).pdb $(DIRECTXTK_ROOT)\Lib64</Command>
     <PreBuildEvent />
     <PostBuildEvent>
       <Command>copy $(OutDir)$(TargetName)$(TargetExt) $(DIRECTXTK_ROOT)\Lib32
-copy $(OutDir)$(TargetName).pdb $(DIRECTXTK_ROOT)\Lib32
-</Command>
+copy $(OutDir)$(TargetName)_vc$(PlatformToolsetVersion).pdb $(DIRECTXTK_ROOT)\Lib32</Command>
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WIN32;LIB_EXPORT;D3DXFX_LARGEADDRESS_HANDLE;DXGI_1_2_FORMATS;_WIN7_PLATFORM_UPDATE;NDEBUG;PROFILE;_PROFILE;_WINDOWS;WINDOWS;_WIN32_WINNT=0x0602;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -600,7 +602,7 @@ copy $(OutDir)$(TargetName).pdb $(DIRECTXTK_ROOT)\Lib32
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dxutstdafx.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ProgramDataBaseFileName>$(OutDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(OutDir)$(TargetName)_vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
@@ -626,7 +628,7 @@ copy $(OutDir)$(TargetName).pdb $(DIRECTXTK_ROOT)\Lib32
     <PreBuildEvent />
     <PostBuildEvent>
       <Command>copy $(OutDir)$(TargetName)$(TargetExt) $(DIRECTXTK_ROOT)\Lib64
-copy $(OutDir)$(TargetName).pdb $(DIRECTXTK_ROOT)\Lib64</Command>
+copy $(OutDir)$(TargetName)_vc$(PlatformToolsetVersion).pdb $(DIRECTXTK_ROOT)\Lib64</Command>
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WIN32;LIB_EXPORT;LIB_STATIC;D3DXFX_LARGEADDRESS_HANDLE;DXGI_1_2_FORMATS;_WIN7_PLATFORM_UPDATE;NDEBUG;PROFILE;_PROFILE;_WINDOWS;WINDOWS;_WIN32_WINNT=0x0602;%(PreprocessorDefinitions)</PreprocessorDefinitions>

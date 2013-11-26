@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DirectXTK", "DirectXTK", "{
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTK", "Projects\DLL\DirectXTK_Desktop.vcxproj", "{E0B52AE7-E160-4D32-BF3F-910B785E5A8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeSpriteFont", "MakeSpriteFont\MakeSpriteFont.csproj", "{7329B02D-C504-482A-A156-181D48CE493C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeSpriteFont", "directxtk\MakeSpriteFont\MakeSpriteFont.csproj", "{7329B02D-C504-482A-A156-181D48CE493C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DLL", "DLL", "{EE463DFF-2A37-4BFD-BCC5-3003CBBCD569}"
 EndProject
