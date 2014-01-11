@@ -16,13 +16,10 @@
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
+using namespace DirectXTK;
 
-#ifdef extern_cplus
-extern "C" {
-#endif
-
-#ifdef extern_cplusplus
-	extern "C++" {
+#ifdef __cplusplus
+EXTERN_C_BEGIN
 #endif
 
 // Constant buffer layout. Must match the shader!
@@ -67,7 +64,7 @@ struct DXTKAPI EnvironmentMapEffectTraits
 class DXTKAPI EnvironmentMapEffect::Impl : public EffectBase<EnvironmentMapEffectTraits>
 {
 public:
-    Impl(_In_ ID3D11Device* device);
+	 Impl(_In_ ID3D11Device* device);
 
     bool fresnelEnabled;
     bool specularEnabled;
@@ -76,15 +73,26 @@ public:
 
     ComPtr<ID3D11ShaderResourceView> environmentMap;
 
-    int GetCurrentShaderPermutation() const;
+	 int GetCurrentShaderPermutation() const;
 
-    void Apply(_In_ ID3D11DeviceContext* deviceContext);
+	 void Apply(_In_ ID3D11DeviceContext* deviceContext);
 };
 
 
 // Include the precompiled shader code.
 namespace
 {
+#if defined(_XBOX_ONE) && defined(_TITLE)
+    #include "Shaders/Compiled/XboxOneEnvironmentMapEffect_VSEnvMap.inc"
+    #include "Shaders/Compiled/XboxOneEnvironmentMapEffect_VSEnvMapFresnel.inc"
+    #include "Shaders/Compiled/XboxOneEnvironmentMapEffect_VSEnvMapOneLight.inc"
+    #include "Shaders/Compiled/XboxOneEnvironmentMapEffect_VSEnvMapOneLightFresnel.inc"
+
+    #include "Shaders/Compiled/XboxOneEnvironmentMapEffect_PSEnvMap.inc"
+    #include "Shaders/Compiled/XboxOneEnvironmentMapEffect_PSEnvMapNoFog.inc"
+    #include "Shaders/Compiled/XboxOneEnvironmentMapEffect_PSEnvMapSpecular.inc"
+    #include "Shaders/Compiled/XboxOneEnvironmentMapEffect_PSEnvMapSpecularNoFog.inc"
+#else
     #include "Shaders/Compiled/EnvironmentMapEffect_VSEnvMap.inc"
     #include "Shaders/Compiled/EnvironmentMapEffect_VSEnvMapFresnel.inc"
     #include "Shaders/Compiled/EnvironmentMapEffect_VSEnvMapOneLight.inc"
@@ -94,6 +102,7 @@ namespace
     #include "Shaders/Compiled/EnvironmentMapEffect_PSEnvMapNoFog.inc"
     #include "Shaders/Compiled/EnvironmentMapEffect_PSEnvMapSpecular.inc"
     #include "Shaders/Compiled/EnvironmentMapEffect_PSEnvMapSpecularNoFog.inc"
+#endif
 }
 
 
@@ -457,11 +466,6 @@ DXTKAPI void EnvironmentMapEffect::SetFresnelFactor(float value)
     pImpl->dirtyFlags |= EffectDirtyFlags::ConstantBuffer;
 }
 
-#if defined(extern_cplus) && defined(extern_cplusplus)
-	}
-	}
-#elif defined(extern_cplus) && !defined(extern_cplusplus)
-}
-#elif defined(extern_cplusplus) && !defined(extern_cplus)
-}
+#ifdef __cplusplus
+EXTERN_C_END
 #endif

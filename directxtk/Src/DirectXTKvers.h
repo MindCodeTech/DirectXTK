@@ -11,9 +11,8 @@
 // http://go.microsoft.com/fwlink/?LinkId=248929
 //--------------------------------------------------------------------------------------
 
-#define DXTKLIB_VERSION_DATE "2013.11.19"
+#define DXTKLIB_VERSION_DATE "2013.12.24"
 
-// I have defined to version 8 in reference to windows 8 but we can change-it !!(I cant find info about DXTK version)
 #define DXTKLIB_VERSION "11.0.8"
 #define DXTKLIB_VERNUM 0x11080
 #define DXTKLIB_VER_MAJOR 11

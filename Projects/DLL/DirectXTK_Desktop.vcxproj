@@ -27,6 +27,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\directxtk\Audio\SoundCommon.h" />
+    <ClInclude Include="..\..\directxtk\Audio\WaveBankReader.h" />
+    <ClInclude Include="..\..\directxtk\Audio\WAVFileReader.h" />
+    <ClInclude Include="..\..\directxtk\Inc\Audio.h" />
     <ClInclude Include="..\..\directxtk\Src\DDS.h" />
     <ClInclude Include="..\..\directxtk\Inc\DDSTextureLoader.h" />
     <ClInclude Include="..\..\directxtk\Inc\CommonStates.h" />
@@ -56,6 +60,14 @@
     <ClInclude Include="..\..\directxtk\Inc\WICTextureLoader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\directxtk\Audio\AudioEngine.cpp" />
+    <ClCompile Include="..\..\directxtk\Audio\DynamicSoundEffectInstance.cpp" />
+    <ClCompile Include="..\..\directxtk\Audio\SoundCommon.cpp" />
+    <ClCompile Include="..\..\directxtk\Audio\SoundEffect.cpp" />
+    <ClCompile Include="..\..\directxtk\Audio\SoundEffectInstance.cpp" />
+    <ClCompile Include="..\..\directxtk\Audio\WaveBank.cpp" />
+    <ClCompile Include="..\..\directxtk\Audio\WaveBankReader.cpp" />
+    <ClCompile Include="..\..\directxtk\Audio\WAVFileReader.cpp" />
     <ClCompile Include="..\..\directxtk\Src\DDSTextureLoader.cpp">
       <FileType>CppCode</FileType>
     </ClCompile>
@@ -89,7 +101,6 @@
     <ClCompile Include="..\..\directxtk\Src\WICTextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\directxtk\src\directxtk.def" />
     <None Include="..\..\Readme.txt" />
     <None Include="..\..\directxtk\Src\Shaders\Common.fxh" />
     <None Include="..\..\directxtk\Src\Shaders\Compiled\AlphaTestEffect_PSAlphaTestEqNe.inc" />
@@ -299,6 +310,7 @@
     <TargetName>$(ProjectName)_d</TargetName>
     <OutDir>$(SolutionDir)Buildir\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Buildir\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <LinkKeyFile>..\..\directxtk\Resources\DirectXTK.snk</LinkKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -307,6 +319,7 @@
     <TargetName>$(ProjectName)</TargetName>
     <OutDir>$(SolutionDir)Buildir\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Buildir\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <LinkKeyFile>..\..\directxtk\Resources\DirectXTK.snk</LinkKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -315,6 +328,7 @@
     <TargetName>$(ProjectName)_d</TargetName>
     <IntDir>$(SolutionDir)Buildir\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir>$(SolutionDir)Buildir\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
+    <LinkKeyFile>..\..\directxtk\Resources\DirectXTK.snk</LinkKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -323,6 +337,7 @@
     <TargetName>$(ProjectName)</TargetName>
     <IntDir>$(SolutionDir)Buildir\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir>$(SolutionDir)Buildir\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
+    <LinkKeyFile>..\..\directxtk\Resources\DirectXTK.snk</LinkKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -331,6 +346,7 @@
     <TargetName>$(ProjectName)</TargetName>
     <IntDir>$(SolutionDir)Buildir\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir>$(SolutionDir)Buildir\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
+    <LinkKeyFile>..\..\directxtk\Resources\DirectXTK.snk</LinkKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|X64'">
     <LinkIncremental>false</LinkIncremental>
@@ -339,6 +355,7 @@
     <TargetName>$(ProjectName)</TargetName>
     <OutDir>$(SolutionDir)Buildir\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Buildir\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <LinkKeyFile>..\..\directxtk\Resources\DirectXTK.snk</LinkKeyFile>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -348,17 +365,17 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <ExceptionHandling>Sync</ExceptionHandling>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
-      <PreprocessorDefinitions>_WIN32;WIN32;LIB_EXPORT;_DLL;_DEBUG;DEBUG;_WIN32_WINNT=0x0602;_WIN7_PLATFORM_UPDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32;WIN32;LIB_EXPORTS;_DLL;_DEBUG;DEBUG;_WIN32_WINNT=0x0602;_WIN7_PLATFORM_UPDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;..\..\directxtk\Audio;..\..\directxtk\Resources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName)_vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <LargeAddressAware>true</LargeAddressAware>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
@@ -368,6 +385,7 @@
       <DelayLoadDLLs>
       </DelayLoadDLLs>
       <PreventDllBinding>false</PreventDllBinding>
+      <KeyContainer>DirectXTK</KeyContainer>
     </Link>
     <Manifest>
       <EnableDPIAwareness>false</EnableDPIAwareness>
@@ -384,7 +402,7 @@ copy $(OutDir)$(TargetName)$(TargetExt)  $(D3D11DEMOS_ROOT)\Bin32
 copy $(OutDir)$(TargetName).pdb  $(D3D11DEMOS_ROOT)\Bin32</Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;..\..\directxtk\Audio;..\..\directxtk\Resources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN32;WIN32;LIB_EXPORT;_DLL;_DEBUG;DEBUG;_WIN32_WINNT=0x0602;_WIN7_PLATFORM_UPDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -395,16 +413,16 @@ copy $(OutDir)$(TargetName).pdb  $(D3D11DEMOS_ROOT)\Bin32</Command>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
-      <PreprocessorDefinitions>_WIN32;WIN32;LIB_EXPORT;_DLL;_DEBUG;DEBUG;_WIN32_WINNT=0x0602;_WIN7_PLATFORM_UPDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32;WIN32;LIB_EXPORTS;_DLL;_DEBUG;DEBUG;_WIN32_WINNT=0x0602;_WIN7_PLATFORM_UPDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;..\..\directxtk\Audio;..\..\directxtk\Resources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName)_vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <LargeAddressAware>true</LargeAddressAware>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
@@ -414,6 +432,7 @@ copy $(OutDir)$(TargetName).pdb  $(D3D11DEMOS_ROOT)\Bin32</Command>
       <DelayLoadDLLs>
       </DelayLoadDLLs>
       <PreventDllBinding>false</PreventDllBinding>
+      <KeyContainer>DirectXTK</KeyContainer>
     </Link>
     <Manifest>
       <EnableDPIAwareness>false</EnableDPIAwareness>
@@ -430,7 +449,7 @@ copy $(OutDir)$(TargetName)$(TargetExt)  $(D3D11DEMOS_ROOT)\Bin64
 copy $(OutDir)$(TargetName).pdb  $(D3D11DEMOS_ROOT)\Bin64</Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;..\..\directxtk\Audio;..\..\directxtk\Resources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN32;WIN32;LIB_EXPORT;_DLL;_DEBUG;DEBUG;_WIN32_WINNT=0x0602;_WIN7_PLATFORM_UPDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -442,19 +461,21 @@ copy $(OutDir)$(TargetName).pdb  $(D3D11DEMOS_ROOT)\Bin64</Command>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_WIN32;WIN32;LIB_EXPORT;_DLL;NDEBUG;_RELEASE;RELEASE;_WIN32_WINNT=0x0602;_WIN7_PLATFORM_UPDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32;WIN32;LIB_EXPORTS;_DLL;NDEBUG;_RELEASE;RELEASE;_WIN32_WINNT=0x0602;_WIN7_PLATFORM_UPDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;..\..\directxtk\Audio;..\..\directxtk\Resources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <FloatingPointModel>Fast</FloatingPointModel>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <StringPooling>true</StringPooling>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName)_vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <LargeAddressAware>true</LargeAddressAware>
@@ -464,9 +485,9 @@ copy $(OutDir)$(TargetName).pdb  $(D3D11DEMOS_ROOT)\Bin64</Command>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
       <DelayLoadDLLs>
       </DelayLoadDLLs>
-      <KeyContainer>
-      </KeyContainer>
+      <KeyContainer>DirectXTK</KeyContainer>
       <PreventDllBinding>false</PreventDllBinding>
+      <ImageHasSafeExceptionHandlers />
     </Link>
     <Manifest>
       <EnableDPIAwareness>false</EnableDPIAwareness>
@@ -478,7 +499,7 @@ copy $(OutDir)$(TargetName).lib $(DIRECTXTK_ROOT)\Lib32
 copy $(OutDir)$(TargetName)$(TargetExt)  $(D3D11DEMOS_ROOT)\Bin32</Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;..\..\directxtk\Audio;..\..\directxtk\Resources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN32;WIN32;LIB_EXPORT;_DLL;NDEBUG;_RELEASE;RELEASE;_WIN32_WINNT=0x0602;_WIN7_PLATFORM_UPDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -490,21 +511,23 @@ copy $(OutDir)$(TargetName)$(TargetExt)  $(D3D11DEMOS_ROOT)\Bin32</Command>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
-      <PreprocessorDefinitions>_WIN32;WIN32;LIB_EXPORT;_DLL;NDEBUG;_RELEASE;RELEASE;_WIN32_WINNT=0x0602;_WIN7_PLATFORM_UPDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32;WIN32;LIB_EXPORTS;_DLL;NDEBUG;_RELEASE;RELEASE;_WIN32_WINNT=0x0602;_WIN7_PLATFORM_UPDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;..\..\directxtk\Audio;..\..\directxtk\Resources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <FloatingPointModel>Fast</FloatingPointModel>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <DebugInformationFormat>None</DebugInformationFormat>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <OmitFramePointers>true</OmitFramePointers>
+      <StringPooling>true</StringPooling>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName)_vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <LargeAddressAware>true</LargeAddressAware>
@@ -514,8 +537,7 @@ copy $(OutDir)$(TargetName)$(TargetExt)  $(D3D11DEMOS_ROOT)\Bin32</Command>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
       <DelayLoadDLLs>
       </DelayLoadDLLs>
-      <KeyContainer>
-      </KeyContainer>
+      <KeyContainer>DirectXTK</KeyContainer>
       <PreventDllBinding>false</PreventDllBinding>
     </Link>
     <Manifest>
@@ -528,7 +550,7 @@ copy $(OutDir)$(TargetName).lib $(DIRECTXTK_ROOT)\Lib64
 copy $(OutDir)$(TargetName)$(TargetExt)  $(D3D11DEMOS_ROOT)\Bin64</Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;..\..\directxtk\Audio;..\..\directxtk\Resources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN32;WIN32;LIB_EXPORT;_DLL;NDEBUG;_RELEASE;RELEASE;_WIN32_WINNT=0x0602;_WIN7_PLATFORM_UPDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -540,16 +562,16 @@ copy $(OutDir)$(TargetName)$(TargetExt)  $(D3D11DEMOS_ROOT)\Bin64</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
-      <PreprocessorDefinitions>_WIN32;WIN32;LIB_EXPORT;_DLL;D3DXFX_LARGEADDRESS_HANDLE;DXGI_1_2_FORMATS;_WIN7_PLATFORM_UPDATE;NDEBUG;PROFILE;_PROFILE;_WINDOWS;WINDOWS;_DLL;_WIN32_WINNT=0x0602;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32;WIN32;LIB_EXPORTS;_DLL;D3DXFX_LARGEADDRESS_HANDLE;DXGI_1_2_FORMATS;_WIN7_PLATFORM_UPDATE;NDEBUG;PROFILE;_PROFILE;_WINDOWS;WINDOWS;_DLL;_WIN32_WINNT=0x0602;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dxutstdafx.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;..\..\directxtk\Audio;..\..\directxtk\Resources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName)_vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <LargeAddressAware>true</LargeAddressAware>
@@ -559,8 +581,7 @@ copy $(OutDir)$(TargetName)$(TargetExt)  $(D3D11DEMOS_ROOT)\Bin64</Command>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
       <DelayLoadDLLs>
       </DelayLoadDLLs>
-      <KeyContainer>
-      </KeyContainer>
+      <KeyContainer>DirectXTK</KeyContainer>
       <PreventDllBinding>false</PreventDllBinding>
     </Link>
     <Manifest>
@@ -578,7 +599,7 @@ copy $(OutDir)$(TargetName).pdb  $(D3D11DEMOS_ROOT)\Bin32</Command>
       <PreprocessorDefinitions>WIN32;_WIN32;LIB_EXPORT;D3DXFX_LARGEADDRESS_HANDLE;DXGI_1_2_FORMATS;_WIN7_PLATFORM_UPDATE;NDEBUG;PROFILE;_PROFILE;_WINDOWS;WINDOWS;_DLL;_WIN32_WINNT=0x0602;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;..\..\directxtk\Audio;..\..\directxtk\Resources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profile|X64'">
@@ -589,16 +610,16 @@ copy $(OutDir)$(TargetName).pdb  $(D3D11DEMOS_ROOT)\Bin32</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
-      <PreprocessorDefinitions>_WIN32;WIN32;LIB_EXPORT;_DLL;D3DXFX_LARGEADDRESS_HANDLE;DXGI_1_2_FORMATS;_WIN7_PLATFORM_UPDATE;NDEBUG;PROFILE;_PROFILE;_WINDOWS;WINDOWS;_DLL;_WIN32_WINNT=0x0602;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32;WIN32;LIB_EXPORTS;_DLL;D3DXFX_LARGEADDRESS_HANDLE;DXGI_1_2_FORMATS;_WIN7_PLATFORM_UPDATE;NDEBUG;PROFILE;_PROFILE;_WINDOWS;WINDOWS;_DLL;_WIN32_WINNT=0x0602;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dxutstdafx.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;..\..\directxtk\Audio;..\..\directxtk\Resources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName)_vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <LargeAddressAware>true</LargeAddressAware>
@@ -608,8 +629,7 @@ copy $(OutDir)$(TargetName).pdb  $(D3D11DEMOS_ROOT)\Bin32</Command>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
       <DelayLoadDLLs>
       </DelayLoadDLLs>
-      <KeyContainer>
-      </KeyContainer>
+      <KeyContainer>DirectXTK</KeyContainer>
       <PreventDllBinding>false</PreventDllBinding>
     </Link>
     <Manifest>
@@ -627,7 +647,7 @@ copy $(OutDir)$(TargetName).pdb  $(D3D11DEMOS_ROOT)\Bin64</Command>
       <PreprocessorDefinitions>_WIN32;WIN32;LIB_EXPORT;_DLL;D3DXFX_LARGEADDRESS_HANDLE;DXGI_1_2_FORMATS;_WIN7_PLATFORM_UPDATE;NDEBUG;PROFILE;_PROFILE;_WINDOWS;WINDOWS;_DLL;_WIN32_WINNT=0x0602;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;..\..\directxtk\Audio;..\..\directxtk\Resources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

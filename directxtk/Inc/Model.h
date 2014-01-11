@@ -13,122 +13,112 @@
 
 #pragma once
 
-#ifdef extern_cplus
-extern "C" {
+#ifdef __cplusplus
+EXTERN_C_BEGIN
 #endif
 
-#ifdef extern_cplusplus
-	extern "C++" {
-#endif
+NAMESPACE_DirectX
 
-namespace DirectX
+class IEffect;
+class IEffectFactory;
+class CommonStates;
+class ModelMesh;
+class ModelMeshPart;
+class Model;
+
+// inserted
+//typedef std::vector<std::unique_ptr<ModelMeshPart>> Collection;
+
+// Each mesh part is a submesh with a single effect
+class ModelMeshPart
 {
+public:
+	DXTKAPI ModelMeshPart();
 
-    class IEffect;
-    class IEffectFactory;
-    class CommonStates;
-    class ModelMesh;
-	class ModelMeshPart;
-	class Model;
+	uint32_t                                                indexCount;
+	uint32_t                                                startIndex;
+	uint32_t                                                vertexOffset;
+	uint32_t                                                vertexStride;
+	D3D_PRIMITIVE_TOPOLOGY                                  primitiveType;
+	DXGI_FORMAT                                             indexFormat;
+	Microsoft::WRL::ComPtr<ID3D11InputLayout>               inputLayout;
+	Microsoft::WRL::ComPtr<ID3D11Buffer>                    indexBuffer;
+	Microsoft::WRL::ComPtr<ID3D11Buffer>                    vertexBuffer;
+	std::shared_ptr<IEffect>                                effect;
+	std::shared_ptr<std::vector<D3D11_INPUT_ELEMENT_DESC>>  vbDecl;
+	bool                                                    isAlpha;
 
-	// inserted
-	//typedef std::vector<std::unique_ptr<ModelMeshPart>> Collection;
+	typedef std::vector<std::unique_ptr<ModelMeshPart>> Collection;
 
-    // Each mesh part is a submesh with a single effect
-	class DXTKAPI ModelMeshPart
-    {
-    public:
-        ModelMeshPart();
+	// Draw mesh part with custom effect
+	DXTKAPI void Draw(_In_ ID3D11DeviceContext* deviceContext, _In_ IEffect* effect, _In_ ID3D11InputLayout* inputLayout,
+		_In_opt_ std::function<void()> setCustomState = nullptr) const;
 
-        uint32_t                                                indexCount;
-        uint32_t                                                startIndex;
-        uint32_t                                                vertexOffset;
-        uint32_t                                                vertexStride;
-        D3D_PRIMITIVE_TOPOLOGY                                  primitiveType;
-        DXGI_FORMAT                                             indexFormat;
-        Microsoft::WRL::ComPtr<ID3D11InputLayout>               inputLayout;
-        Microsoft::WRL::ComPtr<ID3D11Buffer>                    indexBuffer;
-        Microsoft::WRL::ComPtr<ID3D11Buffer>                    vertexBuffer;
-        std::shared_ptr<IEffect>                                effect;
-        std::shared_ptr<std::vector<D3D11_INPUT_ELEMENT_DESC>>  vbDecl;
-        bool                                                    isAlpha;
+	// Create input layout for drawing with a custom effect.
+	DXTKAPI void CreateInputLayout(_In_ ID3D11Device* d3dDevice, _In_ IEffect* effect, _Outptr_ ID3D11InputLayout** inputLayout);
 
-        typedef std::vector<std::unique_ptr<ModelMeshPart>> Collection;
+	// Change effect used by part and regenerate input layout (be sure to call Model::Modified as well)
+	DXTKAPI void ModifyEffect(_In_ ID3D11Device* d3dDevice, _In_ std::shared_ptr<IEffect>& effect, bool isalpha = false);
+};
 
-        // Draw mesh part with custom effect
-        void Draw( _In_ ID3D11DeviceContext* deviceContext, _In_ IEffect* effect, _In_ ID3D11InputLayout* inputLayout,
-                   _In_opt_ std::function<void()> setCustomState = nullptr ) const;
+// A mesh consists of one or more model parts
+class ModelMesh
+{
+public:
+	DXTKAPI ModelMesh();
 
-        // Create input layout for drawing with a custom effect.
-        void CreateInputLayout( _In_ ID3D11Device* d3dDevice, _In_ IEffect* effect, _Outptr_ ID3D11InputLayout** inputLayout );
+	BoundingSphere              boundingSphere;
+	BoundingBox                 boundingBox;
+	ModelMeshPart::Collection   meshParts;
+	std::wstring                name;
+	bool                        ccw;
+	bool                        pmalpha;
 
-        // Change effect used by part and regenerate input layout (be sure to call Model::Modified as well)
-        void ModifyEffect( _In_ ID3D11Device* d3dDevice, _In_ std::shared_ptr<IEffect>& effect, bool isalpha = false );
-    };
+	typedef std::vector<std::shared_ptr<ModelMesh>> Collection;
 
-    // A mesh consists of one or more model parts
-	class ModelMesh
-    {
-    public:
-        ModelMesh();
+	// Setup states for drawing mesh
+	DXTKAPI void PrepareForRendering(_In_ ID3D11DeviceContext* deviceContext, CommonStates& states, bool alpha = false, bool wireframe = false) const;
 
-        BoundingSphere              boundingSphere;
-        BoundingBox                 boundingBox;
-        ModelMeshPart::Collection   meshParts; // some way to bypass std::default_delete trying to reference a deleted function?
-        std::wstring                name;
-        bool                        ccw;
-        bool                        pmalpha;
+	// Draw the mesh
+	DXTKAPI void XM_CALLCONV Draw(_In_ ID3D11DeviceContext* deviceContext, FXMMATRIX world, CXMMATRIX view, CXMMATRIX projection,
+		bool alpha = false, _In_opt_ std::function<void()> setCustomState = nullptr) const;
+};
 
-        typedef std::vector<std::shared_ptr<ModelMesh>> Collection;
-		
-        // Setup states for drawing mesh
-        void PrepareForRendering( _In_ ID3D11DeviceContext* deviceContext, CommonStates& states, bool alpha = false, bool wireframe = false ) const;
+// A model consists of one or more meshes
+class DXTKAPI Model
+{
+public:
+	ModelMesh::Collection   meshes;
+	std::wstring            name;
 
-        // Draw the mesh
-        void XM_CALLCONV Draw(_In_ ID3D11DeviceContext* deviceContext, FXMMATRIX world, CXMMATRIX view, CXMMATRIX projection,
-                   bool alpha = false, _In_opt_ std::function<void()> setCustomState = nullptr ) const;
-    };
+	// Draw all the meshes in the model
+	void XM_CALLCONV Draw(_In_ ID3D11DeviceContext* deviceContext, CommonStates& states, FXMMATRIX world, CXMMATRIX view, CXMMATRIX projection,
+		bool wireframe = false, _In_opt_ std::function<void()> setCustomState = nullptr) const;
 
+	// Notify model that effects, parts list, or mesh list has changed
+	void Modified() { mEffectCache.clear(); }
 
-    // A model consists of one or more meshes
-	class DXTKAPI Model
-    {
-    public:
-        ModelMesh::Collection   meshes;
-        std::wstring            name;
+	// Update all effects used by the model
+	void UpdateEffects(_In_ std::function<void(IEffect*)> setEffect);
 
-        // Draw all the meshes in the model
-        void XM_CALLCONV Draw(_In_ ID3D11DeviceContext* deviceContext, CommonStates& states, FXMMATRIX world, CXMMATRIX view, CXMMATRIX projection,
-                              bool wireframe = false, _In_opt_ std::function<void()> setCustomState = nullptr ) const;
+	// Loads a model from a Visual Studio Starter Kit .CMO file
+	static std::unique_ptr<Model> CreateFromCMO(_In_ ID3D11Device* d3dDevice, _In_reads_bytes_(dataSize) const uint8_t* meshData, size_t dataSize,
+		_In_ IEffectFactory& fxFactory, bool ccw = true, bool pmalpha = false);
+	static std::unique_ptr<Model> CreateFromCMO(_In_ ID3D11Device* d3dDevice, _In_z_ const wchar_t* szFileName,
+		_In_ IEffectFactory& fxFactory, bool ccw = true, bool pmalpha = false);
 
-        // Notify model that effects, parts list, or mesh list has changed
-        void Modified() { mEffectCache.clear(); }
+	// Loads a model from a DirectX SDK .SDKMESH file
+	static std::unique_ptr<Model> CreateFromSDKMESH(_In_ ID3D11Device* d3dDevice, _In_reads_bytes_(dataSize) const uint8_t* meshData, _In_ size_t dataSize,
+		_In_ IEffectFactory& fxFactory, bool ccw = false, bool pmalpha = false);
+	static std::unique_ptr<Model> CreateFromSDKMESH(_In_ ID3D11Device* d3dDevice, _In_z_ const wchar_t* szFileName,
+		_In_ IEffectFactory& fxFactory, bool ccw = false, bool pmalpha = false);
 
-        // Update all effects used by the model
-        void UpdateEffects( _In_ std::function<void(IEffect*)> setEffect );
+private:
+	std::set<IEffect*>  mEffectCache;
+};
 
-        // Loads a model from a Visual Studio Starter Kit .CMO file
-        static std::unique_ptr<Model> CreateFromCMO( _In_ ID3D11Device* d3dDevice, _In_reads_bytes_(dataSize) const uint8_t* meshData, size_t dataSize,
-                                                     _In_ IEffectFactory& fxFactory, bool ccw = true, bool pmalpha = false );
-        static std::unique_ptr<Model> CreateFromCMO( _In_ ID3D11Device* d3dDevice, _In_z_ const wchar_t* szFileName,
-                                                     _In_ IEffectFactory& fxFactory, bool ccw = true, bool pmalpha = false );
+NAMESPACE_DirectX_END
 
-        // Loads a model from a DirectX SDK .SDKMESH file
-        static std::unique_ptr<Model> CreateFromSDKMESH( _In_ ID3D11Device* d3dDevice, _In_reads_bytes_(dataSize) const uint8_t* meshData, _In_ size_t dataSize,
-                                                         _In_ IEffectFactory& fxFactory, bool ccw = false, bool pmalpha = false );
-        static std::unique_ptr<Model> CreateFromSDKMESH( _In_ ID3D11Device* d3dDevice, _In_z_ const wchar_t* szFileName,
-                                                         _In_ IEffectFactory& fxFactory, bool ccw = false, bool pmalpha = false );
-
-    private:
-        std::set<IEffect*>  mEffectCache;
-    };
- }
-
-#if defined(extern_cplus) && defined(extern_cplusplus)
-	}
-	}
-#elif defined(extern_cplus) && !defined(extern_cplusplus)
-}
-#elif defined(extern_cplusplus) && !defined(extern_cplus)
-}
+#ifdef __cplusplus
+EXTERN_C_END
 #endif

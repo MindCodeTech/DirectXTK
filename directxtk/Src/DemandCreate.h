@@ -15,53 +15,45 @@
 
 #include "PlatformHelpers.h"
 
-#ifdef extern_cplus
-extern "C" {
+#ifdef __cplusplus
+EXTERN_C_BEGIN
 #endif
 
-#ifdef extern_cplusplus
-	extern "C++" {
-#endif
+NAMESPACE_DirectX
 
-namespace DirectX
+// Helper for lazily creating a D3D resource.
+template<typename T, typename TCreateFunc>
+static T* DemandCreate(Microsoft::WRL::ComPtr<T>& comPtr, std::mutex& mutex, TCreateFunc createFunc)
 {
-    // Helper for lazily creating a D3D resource.
-    template<typename T, typename TCreateFunc>
-    static T* DemandCreate(Microsoft::WRL::ComPtr<T>& comPtr, std::mutex& mutex, TCreateFunc createFunc)
-    {
-        T* result = comPtr.Get();
+	T* result = comPtr.Get();
 
-        // Double-checked lock pattern.
-        MemoryBarrier();
+	// Double-checked lock pattern.
+	MemoryBarrier();
 
-        if (!result)
-        {
-            std::lock_guard<std::mutex> lock(mutex);
+	if (!result)
+	{
+		std::lock_guard<std::mutex> lock(mutex);
 
-            result = comPtr.Get();
-        
-            if (!result)
-            {
-                // Create the new object.
-                ThrowIfFailed(
-                    createFunc(&result)
-                );
+		result = comPtr.Get();
 
-                MemoryBarrier();
+		if (!result)
+		{
+			// Create the new object.
+			ThrowIfFailed(
+				createFunc(&result)
+				);
 
-                comPtr.Attach(result);
-            }
-        }
+			MemoryBarrier();
 
-        return result;
-    }
-}
-
-#if defined(extern_cplus) && defined(extern_cplusplus)
+			comPtr.Attach(result);
+		}
 	}
-	}
-#elif defined(extern_cplus) && !defined(extern_cplusplus)
+
+	return result;
 }
-#elif defined(extern_cplusplus) && !defined(extern_cplus)
-}
+
+NAMESPACE_DirectX_END
+
+#ifdef __cplusplus
+EXTERN_C_END
 #endif

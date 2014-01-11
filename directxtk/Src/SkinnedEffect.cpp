@@ -15,14 +15,10 @@
 #include "EffectCommon.h"
 
 using namespace DirectX;
+using namespace DirectXTK;
 
-
-#ifdef extern_cplus
-extern "C" {
-#endif
-
-#ifdef extern_cplusplus
-	extern "C++" {
+#ifdef __cplusplus
+EXTERN_C_BEGIN
 #endif
 
 // Constant buffer layout. Must match the shader!
@@ -66,22 +62,39 @@ struct DXTKAPI SkinnedEffectTraits
 class DXTKAPI SkinnedEffect::Impl : public EffectBase<SkinnedEffectTraits>
 {
 public:
-    Impl(_In_ ID3D11Device* device);
+	 Impl(_In_ ID3D11Device* device);
 
     bool preferPerPixelLighting;
     int weightsPerVertex;
 
     EffectLights lights;
 
-    int GetCurrentShaderPermutation() const;
+	 int GetCurrentShaderPermutation() const;
 
-    void Apply(_In_ ID3D11DeviceContext* deviceContext);
+	 void Apply(_In_ ID3D11DeviceContext* deviceContext);
 };
 
 
 // Include the precompiled shader code.
 namespace
 {
+#if defined(_XBOX_ONE) && defined(_TITLE)
+    #include "Shaders/Compiled/XboxOneSkinnedEffect_VSSkinnedVertexLightingOneBone.inc"
+    #include "Shaders/Compiled/XboxOneSkinnedEffect_VSSkinnedVertexLightingTwoBones.inc"
+    #include "Shaders/Compiled/XboxOneSkinnedEffect_VSSkinnedVertexLightingFourBones.inc"
+
+    #include "Shaders/Compiled/XboxOneSkinnedEffect_VSSkinnedOneLightOneBone.inc"
+    #include "Shaders/Compiled/XboxOneSkinnedEffect_VSSkinnedOneLightTwoBones.inc"
+    #include "Shaders/Compiled/XboxOneSkinnedEffect_VSSkinnedOneLightFourBones.inc"
+
+    #include "Shaders/Compiled/XboxOneSkinnedEffect_VSSkinnedPixelLightingOneBone.inc"
+    #include "Shaders/Compiled/XboxOneSkinnedEffect_VSSkinnedPixelLightingTwoBones.inc"
+    #include "Shaders/Compiled/XboxOneSkinnedEffect_VSSkinnedPixelLightingFourBones.inc"
+
+    #include "Shaders/Compiled/XboxOneSkinnedEffect_PSSkinnedVertexLighting.inc"
+    #include "Shaders/Compiled/XboxOneSkinnedEffect_PSSkinnedVertexLightingNoFog.inc"
+    #include "Shaders/Compiled/XboxOneSkinnedEffect_PSSkinnedPixelLighting.inc"
+#else
     #include "Shaders/Compiled/SkinnedEffect_VSSkinnedVertexLightingOneBone.inc"
     #include "Shaders/Compiled/SkinnedEffect_VSSkinnedVertexLightingTwoBones.inc"
     #include "Shaders/Compiled/SkinnedEffect_VSSkinnedVertexLightingFourBones.inc"
@@ -97,6 +110,7 @@ namespace
     #include "Shaders/Compiled/SkinnedEffect_PSSkinnedVertexLighting.inc"
     #include "Shaders/Compiled/SkinnedEffect_PSSkinnedVertexLightingNoFog.inc"
     #include "Shaders/Compiled/SkinnedEffect_PSSkinnedPixelLighting.inc"
+#endif
 }
 
 
@@ -516,12 +530,7 @@ DXTKAPI void SkinnedEffect::ResetBoneTransforms()
     pImpl->dirtyFlags |= EffectDirtyFlags::ConstantBuffer;
 }
 
-#if defined(extern_cplus) && defined(extern_cplusplus)
-	}
-	}
-#elif defined(extern_cplus) && !defined(extern_cplusplus)
-}
-#elif defined(extern_cplusplus) && !defined(extern_cplus)
-}
+#ifdef __cplusplus
+EXTERN_C_END
 #endif
 

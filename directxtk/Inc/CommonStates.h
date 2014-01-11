@@ -13,66 +13,58 @@
 
 #pragma once
 
-#ifdef extern_cplus
-extern "C" {
+#ifdef __cplusplus
+EXTERN_C_BEGIN
 #endif
 
-#ifdef extern_cplusplus
-	extern "C++" {
-#endif
+NAMESPACE_DirectX
 
-namespace DirectX
+class DXTKAPI CommonStates
 {
-    class DXTKAPI CommonStates
-    {
-    public:
-        explicit CommonStates(_In_ ID3D11Device* device);
-        CommonStates(CommonStates&& moveFrom);
-        CommonStates& operator= (CommonStates&& moveFrom);
-        virtual ~CommonStates();
+public:
+	explicit CommonStates(_In_ ID3D11Device* device);
+	CommonStates(CommonStates&& moveFrom);
+	CommonStates& operator= (CommonStates&& moveFrom);
+	virtual ~CommonStates();
 
-        // Blend states.
-        ID3D11BlendState* Opaque() const;
-        ID3D11BlendState* AlphaBlend() const;
-        ID3D11BlendState* Additive() const;
-        ID3D11BlendState* NonPremultiplied() const;
+	// Blend states.
+	ID3D11BlendState* Opaque() const;
+	ID3D11BlendState* AlphaBlend() const;
+	ID3D11BlendState* Additive() const;
+	ID3D11BlendState* NonPremultiplied() const;
 
-        // Depth stencil states.
-        ID3D11DepthStencilState* DepthNone() const;
-        ID3D11DepthStencilState* DepthDefault() const;
-        ID3D11DepthStencilState* DepthRead() const;
+	// Depth stencil states.
+	ID3D11DepthStencilState* DepthNone() const;
+	ID3D11DepthStencilState* DepthDefault() const;
+	ID3D11DepthStencilState* DepthRead() const;
 
-        // Rasterizer states.
-        ID3D11RasterizerState* CullNone() const;
-        ID3D11RasterizerState* CullClockwise() const;
-        ID3D11RasterizerState* CullCounterClockwise() const;
-        ID3D11RasterizerState* Wireframe() const;
+	// Rasterizer states.
+	ID3D11RasterizerState* CullNone() const;
+	ID3D11RasterizerState* CullClockwise() const;
+	ID3D11RasterizerState* CullCounterClockwise() const;
+	ID3D11RasterizerState* Wireframe() const;
 
-        // Sampler states.
-        ID3D11SamplerState* PointWrap() const;
-        ID3D11SamplerState* PointClamp() const;
-        ID3D11SamplerState* LinearWrap() const;
-        ID3D11SamplerState* LinearClamp() const;
-        ID3D11SamplerState* AnisotropicWrap() const;
-        ID3D11SamplerState* AnisotropicClamp() const;
+	// Sampler states.
+	ID3D11SamplerState* PointWrap() const;
+	ID3D11SamplerState* PointClamp() const;
+	ID3D11SamplerState* LinearWrap() const;
+	ID3D11SamplerState* LinearClamp() const;
+	ID3D11SamplerState* AnisotropicWrap() const;
+	ID3D11SamplerState* AnisotropicClamp() const;
 
-    private:
-        // Private implementation.
-		class Impl;
+private:
+	// Private implementation.
+	class Impl;
 
-        std::shared_ptr<Impl> pImpl;
+	std::shared_ptr<Impl> pImpl;
 
-        // Prevent copying.
-        CommonStates(CommonStates const&);
-        CommonStates& operator= (CommonStates const&);
-    };
-}
+	// Prevent copying.
+	CommonStates(CommonStates const&);
+	CommonStates& operator= (CommonStates const&);
+};
 
-#if defined(extern_cplus) && defined(extern_cplusplus)
-	}
-	}
-#elif defined(extern_cplus) && !defined(extern_cplusplus)
-}
-#elif defined(extern_cplusplus) && !defined(extern_cplus)
-}
+NAMESPACE_DirectX_END
+
+#ifdef __cplusplus
+EXTERN_C_END
 #endif

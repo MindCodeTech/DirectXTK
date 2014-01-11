@@ -21,14 +21,10 @@
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
+using namespace DirectXTK;
 
-
-#ifdef extern_cplus
-extern "C" {
-#endif
-
-#ifdef extern_cplusplus
-	extern "C++" {
+#ifdef __cplusplus
+EXTERN_C_BEGIN
 #endif
 
 namespace
@@ -38,7 +34,7 @@ namespace
     static const float SQRT6 = 2.44948974278317809820f;
 
 
-    DXTKAPI void CheckIndexOverflow(size_t value)
+     void CheckIndexOverflow(size_t value)
     {
         // Use >=, not > comparison, because some D3D level 9_x hardware does not support 0xFFFF index values.
         if (value >= USHRT_MAX)
@@ -50,11 +46,11 @@ namespace
     typedef std::vector<VertexPositionNormalTexture> VertexCollection;
     
     
-    class DXTKAPI IndexCollection : public std::vector<uint16_t>
+	class DXTKAPI IndexCollection : public std::vector<uint16_t>
     {
     public:
         // Sanity check the range of 16 bit index values.
-        void push_back(size_t value)
+		 void push_back(size_t value)
         {
             CheckIndexOverflow(value);
             vector::push_back((uint16_t)value);
@@ -80,7 +76,7 @@ namespace
 
     // Helper for creating a D3D vertex or index buffer.
     template<typename T>
-    static void CreateBuffer(_In_ ID3D11Device* device, T const& data, D3D11_BIND_FLAG bindFlags, _Outptr_ ID3D11Buffer** pBuffer)
+	static void CreateBuffer(_In_ ID3D11Device* device, T const& data, D3D11_BIND_FLAG bindFlags, _Outptr_ ID3D11Buffer** pBuffer)
     {
         assert( pBuffer != 0 );
 
@@ -128,13 +124,13 @@ namespace
 class DXTKAPI GeometricPrimitive::Impl
 {
 public:
-    void Initialize(_In_ ID3D11DeviceContext* deviceContext, VertexCollection& vertices, IndexCollection& indices, bool rhcoords );
+	 void Initialize(_In_ ID3D11DeviceContext* deviceContext, VertexCollection& vertices, IndexCollection& indices, bool rhcoords);
 
-    void XM_CALLCONV Draw(FXMMATRIX world, CXMMATRIX view, CXMMATRIX projection, FXMVECTOR color, _In_opt_ ID3D11ShaderResourceView* texture, bool wireframe, _In_opt_ std::function<void()> setCustomState);
+	 void XM_CALLCONV Draw(FXMMATRIX world, CXMMATRIX view, CXMMATRIX projection, FXMVECTOR color, _In_opt_ ID3D11ShaderResourceView* texture, bool wireframe, _In_opt_ std::function<void()> setCustomState);
 
-    void Draw(_In_ IEffect* effect, _In_ ID3D11InputLayout* inputLayout, bool alpha, bool wireframe, _In_opt_ std::function<void()> setCustomState);
+	 void Draw(_In_ IEffect* effect, _In_ ID3D11InputLayout* inputLayout, bool alpha, bool wireframe, _In_opt_ std::function<void()> setCustomState);
 
-    void CreateInputLayout(_In_ IEffect* effect, _Outptr_ ID3D11InputLayout** inputLayout);
+	 void CreateInputLayout(_In_ IEffect* effect, _Outptr_ ID3D11InputLayout** inputLayout);
 
 private:
     ComPtr<ID3D11Buffer> mVertexBuffer;
@@ -143,12 +139,12 @@ private:
     UINT mIndexCount;
 
     // Only one of these helpers is allocated per D3D device context, even if there are multiple GeometricPrimitive instances.
-    class DXTKAPI SharedResources
+	class DXTKAPI SharedResources
     {
     public:
-        SharedResources(_In_ ID3D11DeviceContext* deviceContext);
+		 SharedResources(_In_ ID3D11DeviceContext* deviceContext);
 
-        void PrepareForRendering(bool alpha, bool wireframe);
+		 void PrepareForRendering(bool alpha, bool wireframe);
 
         ComPtr<ID3D11DeviceContext> deviceContext;
         std::unique_ptr<BasicEffect> effect;
@@ -292,7 +288,7 @@ DXTKAPI void XM_CALLCONV GeometricPrimitive::Impl::Draw(FXMMATRIX world, CXMMATR
 
 // Draw the primitive using a custom effect.
 _Use_decl_annotations_
-DXTKAPI void GeometricPrimitive::Impl::Draw(IEffect* effect, ID3D11InputLayout* inputLayout, bool alpha, bool wireframe, std::function<void()> setCustomState )
+DXTKAPI void GeometricPrimitive::Impl::Draw(IEffect* effect, ID3D11InputLayout* inputLayout, bool alpha, bool wireframe, std::function<void()> setCustomState)
 {
     assert( mResources != 0 );
     auto deviceContext = mResources->deviceContext.Get();
@@ -333,7 +329,7 @@ DXTKAPI void GeometricPrimitive::Impl::Draw(IEffect* effect, ID3D11InputLayout* 
 
 // Create input layout for drawing with a custom effect.
 _Use_decl_annotations_
-DXTKAPI void GeometricPrimitive::Impl::CreateInputLayout( IEffect* effect, ID3D11InputLayout** inputLayout )
+DXTKAPI void GeometricPrimitive::Impl::CreateInputLayout(IEffect* effect, ID3D11InputLayout** inputLayout)
 {
     assert( effect != 0 );
     assert( inputLayout != 0 );
@@ -375,14 +371,14 @@ DXTKAPI void XM_CALLCONV GeometricPrimitive::Draw(FXMMATRIX world, CXMMATRIX vie
 
 
 _Use_decl_annotations_
-DXTKAPI void GeometricPrimitive::Draw(IEffect* effect, ID3D11InputLayout* inputLayout, bool alpha, bool wireframe, std::function<void()> setCustomState )
+DXTKAPI void GeometricPrimitive::Draw(IEffect* effect, ID3D11InputLayout* inputLayout, bool alpha, bool wireframe, std::function<void()> setCustomState)
 {
     pImpl->Draw(effect, inputLayout, alpha, wireframe, setCustomState);
 }
 
 
 _Use_decl_annotations_
-DXTKAPI void GeometricPrimitive::CreateInputLayout(IEffect* effect, ID3D11InputLayout** inputLayout )
+DXTKAPI void GeometricPrimitive::CreateInputLayout(IEffect* effect, ID3D11InputLayout** inputLayout)
 {
     pImpl->CreateInputLayout(effect, inputLayout);
 }
@@ -1179,7 +1175,7 @@ DXTKAPI std::unique_ptr<GeometricPrimitive> GeometricPrimitive::CreateTetrahedro
 // Octahedron
 //--------------------------------------------------------------------------------------
 
-DXTKAPI std::unique_ptr<GeometricPrimitive> GeometricPrimitive::CreateOctahedron(_In_ ID3D11DeviceContext* deviceContext, float size, bool rhcoords )
+DXTKAPI std::unique_ptr<GeometricPrimitive> GeometricPrimitive::CreateOctahedron(_In_ ID3D11DeviceContext* deviceContext, float size, bool rhcoords)
 {
     VertexCollection vertices;
     IndexCollection indices;
@@ -1248,7 +1244,7 @@ DXTKAPI std::unique_ptr<GeometricPrimitive> GeometricPrimitive::CreateOctahedron
 // Dodecahedron
 //--------------------------------------------------------------------------------------
 
-DXTKAPI std::unique_ptr<GeometricPrimitive> GeometricPrimitive::CreateDodecahedron(_In_ ID3D11DeviceContext* deviceContext, float size, bool rhcoords )
+DXTKAPI std::unique_ptr<GeometricPrimitive> GeometricPrimitive::CreateDodecahedron(_In_ ID3D11DeviceContext* deviceContext, float size, bool rhcoords)
 {
     VertexCollection vertices;
     IndexCollection indices;
@@ -1382,7 +1378,7 @@ DXTKAPI std::unique_ptr<GeometricPrimitive> GeometricPrimitive::CreateDodecahedr
 // Icosahedron
 //--------------------------------------------------------------------------------------
 
-DXTKAPI std::unique_ptr<GeometricPrimitive> GeometricPrimitive::CreateIcosahedron(_In_ ID3D11DeviceContext* deviceContext, float size, bool rhcoords )
+DXTKAPI std::unique_ptr<GeometricPrimitive> GeometricPrimitive::CreateIcosahedron(_In_ ID3D11DeviceContext* deviceContext, float size, bool rhcoords)
 {
     VertexCollection vertices;
     IndexCollection indices;
@@ -1547,11 +1543,6 @@ DXTKAPI std::unique_ptr<GeometricPrimitive> GeometricPrimitive::CreateTeapot(_In
     return primitive;
 }
 
-#if defined(extern_cplus) && defined(extern_cplusplus)
-	}
-	}
-#elif defined(extern_cplus) && !defined(extern_cplusplus)
-}
-#elif defined(extern_cplusplus) && !defined(extern_cplus)
-}
+#ifdef __cplusplus
+EXTERN_C_END
 #endif

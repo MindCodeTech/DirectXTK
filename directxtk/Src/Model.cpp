@@ -17,18 +17,15 @@
 #include "Effects.h"
 
 using namespace DirectX;
+using namespace DirectXTK;
 
 
 #ifndef _CPPRTTI 
 #error Model requires RTTI
 #endif
 
-#ifdef extern_cplus
-extern "C" {
-#endif
-
-#ifdef extern_cplusplus
-	extern "C++" {
+#ifdef __cplusplus
+EXTERN_C_BEGIN
 #endif
 
 //--------------------------------------------------------------------------------------
@@ -129,7 +126,7 @@ DXTKAPI void ModelMeshPart::ModifyEffect(ID3D11Device* d3dDevice, std::shared_pt
 // ModelMesh
 //--------------------------------------------------------------------------------------
 
-ModelMesh::ModelMesh() :
+DXTKAPI ModelMesh::ModelMesh() :
     ccw(true),
     pmalpha(true)
 {
@@ -137,7 +134,7 @@ ModelMesh::ModelMesh() :
 
 
 _Use_decl_annotations_
-void ModelMesh::PrepareForRendering(ID3D11DeviceContext* deviceContext, CommonStates& states, bool alpha, bool wireframe) const
+DXTKAPI void ModelMesh::PrepareForRendering(ID3D11DeviceContext* deviceContext, CommonStates& states, bool alpha, bool wireframe) const
 {
     assert( deviceContext != 0 );
 
@@ -184,7 +181,7 @@ void ModelMesh::PrepareForRendering(ID3D11DeviceContext* deviceContext, CommonSt
 
 
 _Use_decl_annotations_
-void XM_CALLCONV ModelMesh::Draw(ID3D11DeviceContext* deviceContext,
+DXTKAPI void XM_CALLCONV ModelMesh::Draw(ID3D11DeviceContext* deviceContext,
                                   FXMMATRIX world, CXMMATRIX view, CXMMATRIX projection,
                                   bool alpha,
                                   std::function<void()> setCustomState ) const
@@ -220,7 +217,7 @@ void XM_CALLCONV ModelMesh::Draw(ID3D11DeviceContext* deviceContext,
 //--------------------------------------------------------------------------------------
 
 _Use_decl_annotations_
-DXTKAPI void XM_CALLCONV Model::Draw( ID3D11DeviceContext* deviceContext, CommonStates& states,
+DXTKAPI void XM_CALLCONV Model::Draw(ID3D11DeviceContext* deviceContext, CommonStates& states,
                               FXMMATRIX world, CXMMATRIX view, CXMMATRIX projection,
                               bool wireframe, std::function<void()> setCustomState ) const
 {
@@ -250,7 +247,7 @@ DXTKAPI void XM_CALLCONV Model::Draw( ID3D11DeviceContext* deviceContext, Common
 }
 
 
-DXTKAPI void Model::UpdateEffects( _In_ std::function<void(IEffect*)> setEffect )
+DXTKAPI void Model::UpdateEffects(_In_ std::function<void(IEffect*)> setEffect)
 {
     if ( mEffectCache.empty() )
     {
@@ -276,11 +273,6 @@ DXTKAPI void Model::UpdateEffects( _In_ std::function<void(IEffect*)> setEffect 
     }
 }
 
-#if defined(extern_cplus) && defined(extern_cplusplus)
-	}
-	}
-#elif defined(extern_cplus) && !defined(extern_cplusplus)
-}
-#elif defined(extern_cplusplus) && !defined(extern_cplus)
-}
+#ifdef __cplusplus
+EXTERN_C_END
 #endif

@@ -18,14 +18,10 @@
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
+using namespace DirectXTK;
 
-
-#ifdef extern_cplus
-extern "C" {
-#endif
-
-#ifdef extern_cplusplus
-	extern "C++" {
+#ifdef __cplusplus
+EXTERN_C_BEGIN
 #endif
 
 // Internal state object implementation class. Only one of these helpers is allocated
@@ -33,14 +29,14 @@ extern "C" {
 class DXTKAPI CommonStates::Impl
 {
 public:
-    Impl(_In_ ID3D11Device* device)
+	 Impl(_In_ ID3D11Device* device)
       : device(device)
     { }
 
-    HRESULT CreateBlendState(D3D11_BLEND srcBlend, D3D11_BLEND destBlend, _Out_ ID3D11BlendState** pResult);
-    HRESULT CreateDepthStencilState(bool enable, bool writeEnable, _Out_ ID3D11DepthStencilState** pResult);
-    HRESULT CreateRasterizerState(D3D11_CULL_MODE cullMode, D3D11_FILL_MODE fillMode, _Out_ ID3D11RasterizerState** pResult);
-    HRESULT CreateSamplerState(D3D11_FILTER filter, D3D11_TEXTURE_ADDRESS_MODE addressMode, _Out_ ID3D11SamplerState** pResult);
+	 HRESULT CreateBlendState(D3D11_BLEND srcBlend, D3D11_BLEND destBlend, _Out_ ID3D11BlendState** pResult);
+	 HRESULT CreateDepthStencilState(bool enable, bool writeEnable, _Out_ ID3D11DepthStencilState** pResult);
+	 HRESULT CreateRasterizerState(D3D11_CULL_MODE cullMode, D3D11_FILL_MODE fillMode, _Out_ ID3D11RasterizerState** pResult);
+	 HRESULT CreateSamplerState(D3D11_FILTER filter, D3D11_TEXTURE_ADDRESS_MODE addressMode, _Out_ ID3D11SamplerState** pResult);
 
     ComPtr<ID3D11Device> device;
 
@@ -375,11 +371,6 @@ DXTKAPI ID3D11SamplerState* CommonStates::AnisotropicClamp() const
     });
 }
 
-#if defined(extern_cplus) && defined(extern_cplusplus)
-	}
-	}
-#elif defined(extern_cplus) && !defined(extern_cplusplus)
-}
-#elif defined(extern_cplusplus) && !defined(extern_cplus)
-}
+#ifdef __cplusplus
+EXTERN_C_END
 #endif

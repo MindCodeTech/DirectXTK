@@ -15,13 +15,10 @@
 #include "EffectCommon.h"
 
 using namespace DirectX;
+using namespace DirectXTK;
 
-#ifdef extern_cplus
-extern "C" {
-#endif
-
-#ifdef extern_cplusplus
-	extern "C++" {
+#ifdef __cplusplus
+EXTERN_C_BEGIN
 #endif
 
 // Constant buffer layout. Must match the shader!
@@ -52,7 +49,7 @@ struct DXTKAPI AlphaTestEffectTraits
 class DXTKAPI AlphaTestEffect::Impl : public EffectBase<AlphaTestEffectTraits>
 {
 public:
-    Impl(_In_ ID3D11Device* device);
+	 Impl(_In_ ID3D11Device* device);
 
     D3D11_COMPARISON_FUNC alphaFunction;
     int referenceAlpha;
@@ -61,15 +58,26 @@ public:
 
     EffectColor color;
 
-    int GetCurrentShaderPermutation() const;
+	 int GetCurrentShaderPermutation() const;
 
-    void Apply(_In_ ID3D11DeviceContext* deviceContext);
+	 void Apply(_In_ ID3D11DeviceContext* deviceContext);
 };
 
 
 // Include the precompiled shader code.
 namespace
 {
+#if defined(_XBOX_ONE) && defined(_TITLE)
+    #include "Shaders/Compiled/XboxOneAlphaTestEffect_VSAlphaTest.inc"
+    #include "Shaders/Compiled/XboxOneAlphaTestEffect_VSAlphaTestNoFog.inc"
+    #include "Shaders/Compiled/XboxOneAlphaTestEffect_VSAlphaTestVc.inc"
+    #include "Shaders/Compiled/XboxOneAlphaTestEffect_VSAlphaTestVcNoFog.inc"
+
+    #include "Shaders/Compiled/XboxOneAlphaTestEffect_PSAlphaTestLtGt.inc"
+    #include "Shaders/Compiled/XboxOneAlphaTestEffect_PSAlphaTestLtGtNoFog.inc"
+    #include "Shaders/Compiled/XboxOneAlphaTestEffect_PSAlphaTestEqNe.inc"
+    #include "Shaders/Compiled/XboxOneAlphaTestEffect_PSAlphaTestEqNeNoFog.inc"
+#else
     #include "Shaders/Compiled/AlphaTestEffect_VSAlphaTest.inc"
     #include "Shaders/Compiled/AlphaTestEffect_VSAlphaTestNoFog.inc"
     #include "Shaders/Compiled/AlphaTestEffect_VSAlphaTestVc.inc"
@@ -79,6 +87,7 @@ namespace
     #include "Shaders/Compiled/AlphaTestEffect_PSAlphaTestLtGtNoFog.inc"
     #include "Shaders/Compiled/AlphaTestEffect_PSAlphaTestEqNe.inc"
     #include "Shaders/Compiled/AlphaTestEffect_PSAlphaTestEqNeNoFog.inc"
+#endif
 }
 
 
@@ -295,7 +304,7 @@ DXTKAPI AlphaTestEffect& AlphaTestEffect::operator= (AlphaTestEffect&& moveFrom)
 
 
 // Public destructor.
-AlphaTestEffect::~AlphaTestEffect()
+DXTKAPI AlphaTestEffect::~AlphaTestEffect()
 {
 }
 
@@ -411,11 +420,6 @@ DXTKAPI void AlphaTestEffect::SetReferenceAlpha(int value)
     pImpl->dirtyFlags |= EffectDirtyFlags::AlphaTest;
 }
 
-#if defined(extern_cplus) && defined(extern_cplusplus)
-	}
-	}
-#elif defined(extern_cplus) && !defined(extern_cplusplus)
-}
-#elif defined(extern_cplusplus) && !defined(extern_cplus)
-}
+#ifdef __cplusplus
+EXTERN_C_END
 #endif

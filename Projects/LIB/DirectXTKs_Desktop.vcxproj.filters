@@ -25,6 +25,9 @@
     <Filter Include="Resource Files">
       <UniqueIdentifier>{cf0a3617-5886-44ed-a094-2151e4f9a421}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{37fac05c-de62-48d3-931d-1368b1c3f952}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\directxtk\Inc\CommonStates.h">
@@ -106,6 +109,18 @@
     <ClInclude Include="..\..\directxtk\Inc\WICTextureLoader.h">
       <Filter>WICTextureLoader</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\directxtk\Inc\Audio.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\directxtk\Audio\SoundCommon.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\directxtk\Audio\WaveBankReader.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\directxtk\Audio\WAVFileReader.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\directxtk\Src\CommonStates.cpp">
@@ -177,8 +192,29 @@
     <ClCompile Include="..\..\directxtk\Src\DGSLEffectFactory.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\directxtk\Src\DirectXTKDLL.cpp">
-      <Filter>Src</Filter>
+    <ClCompile Include="..\..\directxtk\Audio\AudioEngine.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\directxtk\Audio\DynamicSoundEffectInstance.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\directxtk\Audio\SoundCommon.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\directxtk\Audio\SoundEffect.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\directxtk\Audio\SoundEffectInstance.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\directxtk\Audio\WaveBank.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\directxtk\Audio\WaveBankReader.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\directxtk\Audio\WAVFileReader.cpp">
+      <Filter>Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -475,16 +511,6 @@
     </None>
     <None Include="..\..\directxtk\src\directxtk.def" />
     <None Include="..\..\Readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\..\directxtk\Resources\directx.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="..\..\directxtk\Resources\DirectXTK.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Src\Shaders\DGSLEffect.fx">

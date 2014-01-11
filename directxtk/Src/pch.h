@@ -36,14 +36,17 @@
 #endif
 
 // If app hasn't choosen, set to work with Windows Vista and beyond
+#if _WIN32_WINNT < _WIN32_WINNT_WIN8
+#undef _WIN32_WINNT
+#endif
+#ifndef _WIN32_WINNT
+#define _WIN32_WINNT   _WIN32_WINNT_WIN8
+#endif
 #ifndef WINVER
-#define WINVER         0x0602
+#define WINVER         _WIN32_WINNT
 #endif
 #ifndef _WIN32_WINDOWS
-#define _WIN32_WINDOWS 0x0602
-#endif
-#if (_WIN32_WINNT < 0x0602)
-#define _WIN32_WINNT   0x0602
+#define _WIN32_WINDOWS _WIN32_WINNT
 #endif
 
 #if (_WIN32_WINNT >= _WIN32_WINNT_WIN8) && !defined(DXGI_1_2_FORMATS)
@@ -52,12 +55,12 @@
 
 #include "DirectXTKexp.h"
 
-#if defined(_MSC_VER) && defined(DXTKLIB_EXPORT) || defined(_LIB) || defined(DXTKLIB_IMPORT) || defined(_DLL) && !defined(DXUT_AUTOLIB)
+#if defined(_MSC_VER) && defined(DXTKLIB_EXPORTS) || defined(_LIB) || defined(DXTKLIB_IMPORTS) || defined(_DLL) && !defined(DXUT_AUTOLIB)
 #define DXTK_AUTOLIB 0
 #endif
 
 // #define DXTK_AUTOLIB to automatically include the libs needed for DXTK
-#ifndef DXUT_AUTOLIB
+#if !defined(DXUT_AUTOLIB) && !defined(EFFECTS11_AUTOLIB)&& !defined(DXTEX_AUTOLIB)
 #ifdef DXTK_AUTOLIB
 #pragma comment( lib, "d3d11.lib" )
 // #pragma comment( lib, "d3d10_1.lib" )
@@ -65,26 +68,27 @@
 #pragma comment( lib, "ComCtl32.Lib" )
 #pragma comment( lib, "dxgi.lib" )
 #pragma comment( lib, "dxguid.lib" )
-#pragma comment( lib, "d3dcompiler.lib" )
+// #pragma comment( lib, "d3dcompiler.lib" )
 // #pragma comment( lib, "ole32.lib" ) // included with additional include directories 
 // #pragma comment( lib, "uuid.lib" ) // included with additional include directories 
 #pragma comment( lib, "usp10.lib" )
-#pragma comment( lib, "ddraw.lib" )
+// #pragma comment( lib, "ddraw.lib" )
+#if (_WIN32_WINNT >= _WIN32_WINNT_WIN8) || defined(_WIN7_PLATFORM_UPDATE) && !defined(_XBOX_ONE)
 #pragma comment( lib, "d2d1.lib" )
-#pragma comment( lib, "dwrite.lib" )
-//#pragma comment( lib, "dsound.lib" )
-#ifdef _DEBUG
-#pragma comment( lib, "d3dcsxd.lib" )
-#else
-#pragma comment( lib, "d3dcsx.lib" )
 #endif
+// #pragma comment( lib, "dwrite.lib" )
+// #ifdef _DEBUG
+// #pragma comment( lib, "d3dcsxd.lib" )
+// #else
+// #pragma comment( lib, "d3dcsx.lib" )
+// #endif
 #pragma comment( lib, "WinMM.Lib" )
 #pragma comment( lib, "Imm32.Lib" )
 #pragma comment( lib, "Version.Lib" )
 #endif
 #endif
 
-#ifdef DXTKLIB_IMPORT
+#ifdef DXTKLIB_IMPORTS
 #ifdef DXTKLIB_DLL
 #ifdef _DEBUG
 #pragma comment( lib, "DirectXTK_d.Lib" )
@@ -98,7 +102,7 @@
 #pragma comment( lib, "DirectXTKs.lib" )
 #endif
 #else
-#pragma warning ("DXTKLIB_IMPORT import librarys aren't defined")
+#pragma warning ("DXTKLIB_IMPORTS import librarys aren't defined")
 #endif
 #endif
 
@@ -123,21 +127,33 @@
 #include <strsafe.h>
 #include <msctf.h>
 #include <mmsystem.h>
-#include <dsound.h>
 #include <ks.h>
 #include <ole2.h>
 #include <wrl.h>
+#include <objbase.h>
+#include <mmreg.h>
 
 
 // Direct3D11 includes
+#if defined(_XBOX_ONE) && defined(_TITLE) && MONOLITHIC
+#include <d3d11_x.h>
+#define DCOMMON_H_INCLUDED
+#define NO_D3D11_DEBUG_NAME
+#else
+
 //#include <d3dcommon.h>
+#if (_WIN32_WINNT >= _WIN32_WINNT_WINBLUE) && !defined(_XBOX_ONE)
 #include <dxgi1_3.h>
 #include <d3d11_2.h>
-#include <d3d11shader.h>
-//#include <d3d10_1.h>
-#include <d3dcompiler.h>
-#if (_WIN32_WINNT >= _WIN32_WINNT_WIN8) || defined(_WIN7_PLATFORM_UPDATE)
 #include <d2d1_2.h>
+#elif (_WIN32_WINNT >= _WIN32_WINNT_WIN8) || defined(_WIN7_PLATFORM_UPDATE) && !defined(_XBOX_ONE)
+#include <dxgi1_2.h>
+#include <d3d11_1.h>
+#include <d2d1_1.h>
+#endif
+// #include <d3d11shader.h>
+// #include <d3dcompiler.h>
+// #include <d3dcsx.h>
 #endif
 
 #if defined(DEBUG) || defined(_DEBUG)
@@ -155,12 +171,46 @@
 #include <wincodec.h>
 #endif
 
+#if defined(_XBOX_ONE) && defined(_TITLE)
+#include <xma2defs.h>
+#pragma comment(lib,"acphal.lib")
+#endif
+
+#if defined(WINAPI_FAMILY) && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#pragma comment(lib,"PhoneAudioSes.lib")
+#endif
+
+#if (_WIN32_WINNT >= 0x0602 /*_WIN32_WINNT_WIN8*/)
+#if defined(_MSC_VER) && (_MSC_VER < 1700)
+#error DirectX Tool Kit for Audio does not support VS 2010 without the DirectX SDK 
+#endif
+#include <xaudio2.h>
+#include <xaudio2fx.h>
+#include <x3daudio.h>
+#include <xapofx.h>
+#pragma comment(lib,"xaudio2.lib")
+#else
+// Using XAudio 2.7 requires the DirectX SDK
+#include <C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\comdecl.h>
+#include <C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xaudio2.h>
+#include <C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xaudio2fx.h>
+#include <C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xapofx.h>
+#pragma warning(push)
+#pragma warning( disable : 4005 )
+#include <C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\x3daudio.h>
+#pragma warning(pop)
+#pragma comment(lib,"x3daudio.lib")
+#pragma comment(lib,"xapofx.lib")
+#endif
+
 // XInput includes
 #include <xinput.h>
 
+/*
 #include <ddraw.h>
 #include <dwrite.h>
 #include <dxtmpl.h>
+*/
 
 #pragma pack (pop)
 
@@ -191,8 +241,14 @@
 #include <search.h>
 #include <exception>
 #include <type_traits>
+#include <list>
+#include <unordered_map>
 #ifdef _OPENMP
 #include <omp.h>
+#endif
+
+#if defined(_XBOX_ONE) && defined(_TITLE)
+#include <apu.h>
 #endif
 
 using namespace std;
@@ -207,26 +263,25 @@ using namespace std;
 // Enable extra D3D debugging in debug builds if using the debug DirectX runtime.
 // This makes D3D objects work well in the debugger watch window, but slows down
 // performance slightly.
-#if defined(DEBUG) | defined(_DEBUG)
+#if defined(DEBUG) || defined(_DEBUG)
 #define D3D_DEBUG_INFO
 #endif
 
 //#undef min // use __min instead
 //#undef max // use __max instead
 
-#ifndef UNUSED (-1)
-#define UNUSED (-1)
+#if !(UNUSED == -1) && !defined(UNUSED)
+#define UNUSED -1
 #endif
 
-
-// namespace DirectX
-// {
-// #if (DIRECTXMATH_VERSION < 305) && !defined(XM_CALLCONV)
-// #define XM_CALLCONV __fastcall
-// 			typedef DXTKAPI const XMVECTOR& HXMVECTOR;
-// 			typedef DXTKAPI const XMMATRIX& FXMMATRIX;
-// #endif
-// 		}
+/*
+NAMESPACE_DirectX
+#if (DIRECTXMATH_VERSION < 305) && !defined(XM_CALLCONV)
+#define XM_CALLCONV __fastcall
+typedef const XMVECTOR& HXMVECTOR;
+typedef const XMMATRIX& FXMMATRIX;
+#endif
+NAMESPACE_DirectX_END*/
 
 #ifndef SAFE_DELETE
 #define SAFE_DELETE(p)       { if (p) { delete (p);     (p) = nullptr; } }
@@ -366,6 +421,10 @@ using namespace std;
 #include "DemandCreate.h"
 #include "BinaryReader.h"
 #include "SimpleMath.h"
+#include "Audio.h"
+#include "WAVFileReader.h"
+#include "WaveBankReader.h"
+#include "SoundCommon.h"
 #endif
 
 

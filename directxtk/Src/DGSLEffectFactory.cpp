@@ -28,15 +28,12 @@
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
+using namespace DirectXTK;
 using namespace DDSTextureLoader;
 using namespace WICTextureLoader;
 
-#ifdef extern_cplus
-extern "C" {
-#endif
-
-#ifdef extern_cplusplus
-	extern "C++" {
+#ifdef __cplusplus
+EXTERN_C_BEGIN
 #endif
 
 // Internal DGSLEffectFactory implementation class. Only one of these helpers is allocated
@@ -44,17 +41,17 @@ extern "C" {
 class DXTKAPI DGSLEffectFactory::Impl
 {
 public:
-    Impl(_In_ ID3D11Device* device)
+	 Impl(_In_ ID3D11Device* device)
       : device(device), mSharing(true)
     { *mPath = 0; }
 
-    std::shared_ptr<IEffect> CreateEffect( _In_ DGSLEffectFactory* factory, _In_ const IEffectFactory::EffectInfo& info, _In_opt_ ID3D11DeviceContext* deviceContext );
-    std::shared_ptr<IEffect> CreateDGSLEffect( _In_ DGSLEffectFactory* factory, _In_ const DGSLEffectInfo& info, _In_opt_ ID3D11DeviceContext* deviceContext );
-    void CreateTexture( _In_z_ const WCHAR* texture, _In_opt_ ID3D11DeviceContext* deviceContext, _Outptr_ ID3D11ShaderResourceView** textureView );
-    void CreatePixelShader( _In_z_ const WCHAR* shader, _Outptr_ ID3D11PixelShader** pixelShader );
+	 std::shared_ptr<IEffect> CreateEffect(_In_ DGSLEffectFactory* factory, _In_ const IEffectFactory::EffectInfo& info, _In_opt_ ID3D11DeviceContext* deviceContext);
+	 std::shared_ptr<IEffect> CreateDGSLEffect(_In_ DGSLEffectFactory* factory, _In_ const DGSLEffectInfo& info, _In_opt_ ID3D11DeviceContext* deviceContext);
+	 void CreateTexture(_In_z_ const WCHAR* texture, _In_opt_ ID3D11DeviceContext* deviceContext, _Outptr_ ID3D11ShaderResourceView** textureView);
+	 void CreatePixelShader(_In_z_ const WCHAR* shader, _Outptr_ ID3D11PixelShader** pixelShader);
 
-    void ReleaseCache();
-    void SetSharing( bool enabled ) { mSharing = enabled; }
+	 void ReleaseCache();
+	 void SetSharing(bool enabled) { mSharing = enabled; }
 
     static SharedResourcePool<ID3D11Device*, Impl> instancePool;
 
@@ -83,7 +80,7 @@ DXTKAPI SharedResourcePool<ID3D11Device*, DGSLEffectFactory::Impl> DGSLEffectFac
 
 
 _Use_decl_annotations_
-DXTKAPI std::shared_ptr<IEffect> DGSLEffectFactory::Impl::CreateEffect( DGSLEffectFactory* factory, const DGSLEffectFactory::EffectInfo& info, ID3D11DeviceContext* deviceContext )
+DXTKAPI std::shared_ptr<IEffect> DGSLEffectFactory::Impl::CreateEffect(DGSLEffectFactory* factory, const DGSLEffectFactory::EffectInfo& info, ID3D11DeviceContext* deviceContext)
 {
     if ( mSharing && info.name && *info.name )
     {
@@ -164,7 +161,7 @@ DXTKAPI std::shared_ptr<IEffect> DGSLEffectFactory::Impl::CreateEffect( DGSLEffe
 
 
 _Use_decl_annotations_
-DXTKAPI std::shared_ptr<IEffect> DGSLEffectFactory::Impl::CreateDGSLEffect( DGSLEffectFactory* factory, const DGSLEffectFactory::DGSLEffectInfo& info, ID3D11DeviceContext* deviceContext )
+DXTKAPI std::shared_ptr<IEffect> DGSLEffectFactory::Impl::CreateDGSLEffect(DGSLEffectFactory* factory, const DGSLEffectFactory::DGSLEffectInfo& info, ID3D11DeviceContext* deviceContext)
 {
     if ( mSharing && info.name && *info.name )
     {
@@ -325,7 +322,7 @@ DXTKAPI std::shared_ptr<IEffect> DGSLEffectFactory::Impl::CreateDGSLEffect( DGSL
 
 
 _Use_decl_annotations_
-DXTKAPI void DGSLEffectFactory::Impl::CreateTexture( const WCHAR* name, ID3D11DeviceContext* deviceContext, ID3D11ShaderResourceView** textureView )
+DXTKAPI void DGSLEffectFactory::Impl::CreateTexture(const WCHAR* name, ID3D11DeviceContext* deviceContext, ID3D11ShaderResourceView** textureView)
 {
     if ( !name || !textureView )
         throw std::exception("invalid arguments");
@@ -350,27 +347,40 @@ DXTKAPI void DGSLEffectFactory::Impl::CreateTexture( const WCHAR* name, ID3D11De
 
         if ( _wcsicmp( ext, L".dds" ) == 0 )
         {
-            ThrowIfFailed(
-                CreateDDSTextureFromFile( device.Get(), fullName, nullptr, textureView )
-                );
+            HRESULT hr = CreateDDSTextureFromFile( device.Get(), fullName, nullptr, textureView );
+            if ( FAILED(hr) )
+            {
+                DebugTrace( "CreateDDSTextureFromFile failed (%08X) for '%S'\n", hr, fullName );
+                throw std::exception( "CreateDDSTextureFromFile" );
+            }
         }
         else if ( deviceContext )
         {
             std::lock_guard<std::mutex> lock(mutex);
-            DirectX::ThrowIfFailed(
-                CreateWICTextureFromFile( device.Get(), deviceContext, fullName, nullptr, textureView )
-                );
+            HRESULT hr = CreateWICTextureFromFile( device.Get(), deviceContext, fullName, nullptr, textureView );
+            if ( FAILED(hr) )
+            {
+                DebugTrace( "CreateWICTextureFromFile failed (%08X) for '%S'\n", hr, fullName );
+                throw std::exception( "CreateWICTextureFromFile" );
+            }
         }
         else
         {
-            DirectX::ThrowIfFailed(
-                CreateWICTextureFromFile( device.Get(), nullptr, fullName, nullptr, textureView )
-                );
+            HRESULT hr = CreateWICTextureFromFile( device.Get(), nullptr, fullName, nullptr, textureView );
+            if ( FAILED(hr) )
+            {
+                DebugTrace( "CreateWICTextureFromFile failed (%08X) for '%S'\n", hr, fullName );
+                throw std::exception( "CreateWICTextureFromFile" );
+            }
         }
 #else
         UNREFERENCED_PARAMETER( deviceContext );
-        ThrowIfFailed(
-            CreateDDSTextureFromFile( device.Get(), fullName, nullptr, textureView ) );
+        HRESULT hr = CreateDDSTextureFromFile( device.Get(), fullName, nullptr, textureView );
+        if ( FAILED(hr) )
+        {
+            DebugTrace( "CreateDDSTextureFromFile failed (%08X) for '%S'\n", hr, fullName );
+            throw std::exception( "CreateDDSTextureFromFile" );
+        }
 #endif
 
         if ( mSharing && *name && it == mTextureCache.end() )
@@ -383,7 +393,7 @@ DXTKAPI void DGSLEffectFactory::Impl::CreateTexture( const WCHAR* name, ID3D11De
 
 
 _Use_decl_annotations_
-DXTKAPI void DGSLEffectFactory::Impl::CreatePixelShader( const WCHAR* name, ID3D11PixelShader** pixelShader )
+DXTKAPI void DGSLEffectFactory::Impl::CreatePixelShader(const WCHAR* name, ID3D11PixelShader** pixelShader)
 {
     if ( !name || !pixelShader )
         throw std::exception("invalid arguments");
@@ -404,9 +414,12 @@ DXTKAPI void DGSLEffectFactory::Impl::CreatePixelShader( const WCHAR* name, ID3D
 
         size_t dataSize = 0;
         std::unique_ptr<uint8_t[]> data;
-        ThrowIfFailed(
-            BinaryReader::ReadEntireFile( fullName, data, &dataSize )
-        );
+        HRESULT hr = BinaryReader::ReadEntireFile( fullName, data, &dataSize );
+        if ( FAILED(hr) )
+        {
+            DebugTrace( "CreatePixelShader failed (%08X) to load shader file '%S'\n", hr, fullName );
+            throw std::exception( "CreatePixelShader" );
+        }
        
         ThrowIfFailed(
             device->CreatePixelShader( data.get(), dataSize, nullptr, pixelShader ) );
@@ -459,13 +472,13 @@ DXTKAPI DGSLEffectFactory& DGSLEffectFactory::operator= (DGSLEffectFactory&& mov
 
 // IEffectFactory methods
 _Use_decl_annotations_
-DXTKAPI std::shared_ptr<IEffect> DGSLEffectFactory::CreateEffect( const EffectInfo& info, ID3D11DeviceContext* deviceContext )
+DXTKAPI std::shared_ptr<IEffect> DGSLEffectFactory::CreateEffect(const EffectInfo& info, ID3D11DeviceContext* deviceContext)
 {
     return pImpl->CreateEffect( this, info, deviceContext );
 }
 
 _Use_decl_annotations_
-DXTKAPI void DGSLEffectFactory::CreateTexture( const WCHAR* name, ID3D11DeviceContext* deviceContext, ID3D11ShaderResourceView** textureView )
+DXTKAPI void DGSLEffectFactory::CreateTexture(const WCHAR* name, ID3D11DeviceContext* deviceContext, ID3D11ShaderResourceView** textureView)
 {
     return pImpl->CreateTexture( name, deviceContext, textureView );
 }
@@ -473,14 +486,14 @@ DXTKAPI void DGSLEffectFactory::CreateTexture( const WCHAR* name, ID3D11DeviceCo
 
 // DGSL methods.
 _Use_decl_annotations_
-DXTKAPI std::shared_ptr<IEffect> DGSLEffectFactory::CreateDGSLEffect( const DGSLEffectInfo& info, ID3D11DeviceContext* deviceContext )
+DXTKAPI std::shared_ptr<IEffect> DGSLEffectFactory::CreateDGSLEffect(const DGSLEffectInfo& info, ID3D11DeviceContext* deviceContext)
 {
     return pImpl->CreateDGSLEffect( this, info, deviceContext );
 }
 
 
 _Use_decl_annotations_
-DXTKAPI void DGSLEffectFactory::CreatePixelShader( const WCHAR* shader, ID3D11PixelShader** pixelShader )
+DXTKAPI void DGSLEffectFactory::CreatePixelShader(const WCHAR* shader, ID3D11PixelShader** pixelShader)
 {
     pImpl->CreatePixelShader( shader, pixelShader );
 }
@@ -492,12 +505,12 @@ DXTKAPI void DGSLEffectFactory::ReleaseCache()
     pImpl->ReleaseCache();
 }
 
-DXTKAPI void DGSLEffectFactory::SetSharing( bool enabled )
+DXTKAPI void DGSLEffectFactory::SetSharing(bool enabled)
 {
     pImpl->SetSharing( enabled );
 }
 
-DXTKAPI void DGSLEffectFactory::SetDirectory( _In_opt_z_ const WCHAR* path )
+DXTKAPI void DGSLEffectFactory::SetDirectory(_In_opt_z_ const WCHAR* path)
 {
     if ( path && *path != 0 )
     {
@@ -517,11 +530,6 @@ DXTKAPI void DGSLEffectFactory::SetDirectory( _In_opt_z_ const WCHAR* path )
         *pImpl->mPath = 0;
 }
 
-#if defined(extern_cplus) && defined(extern_cplusplus)
-	}
-	}
-#elif defined(extern_cplus) && !defined(extern_cplusplus)
-}
-#elif defined(extern_cplusplus) && !defined(extern_cplus)
-}
+#ifdef __cplusplus
+EXTERN_C_END
 #endif

@@ -17,12 +17,8 @@
 using namespace DirectX;
 using namespace DirectX::PackedVector;
 
-#ifdef extern_cplus
-extern "C" {
-#endif
-
-#ifdef extern_cplusplus
-	extern "C++" {
+#ifdef __cplusplus
+EXTERN_C_BEGIN
 #endif
 
 //--------------------------------------------------------------------------------------
@@ -141,11 +137,6 @@ DXTKAPI void XM_CALLCONV VertexPositionNormalTangentColorTextureSkinning::SetBle
     this->weights = packed.v;
 }
 
-#if defined(extern_cplus) && defined(extern_cplusplus)
-	}
-	}
-#elif defined(extern_cplus) && !defined(extern_cplusplus)
-}
-#elif defined(extern_cplusplus) && !defined(extern_cplus)
-}
+#ifdef __cplusplus
+EXTERN_C_END
 #endif

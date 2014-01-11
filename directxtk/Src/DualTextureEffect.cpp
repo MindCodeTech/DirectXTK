@@ -16,13 +16,10 @@
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
+using namespace DirectXTK;
 
-#ifdef extern_cplus
-extern "C" {
-#endif
-
-#ifdef extern_cplusplus
-	extern "C++" {
+#ifdef __cplusplus
+EXTERN_C_BEGIN
 #endif
 
 // Constant buffer layout. Must match the shader!
@@ -52,7 +49,7 @@ struct DXTKAPI DualTextureEffectTraits
 class DXTKAPI DualTextureEffect::Impl : public EffectBase<DualTextureEffectTraits>
 {
 public:
-    Impl(_In_ ID3D11Device* device);
+	 Impl(_In_ ID3D11Device* device);
 
     bool vertexColorEnabled;
     
@@ -60,15 +57,24 @@ public:
 
     ComPtr<ID3D11ShaderResourceView> texture2;
 
-    int GetCurrentShaderPermutation() const;
+	 int GetCurrentShaderPermutation() const;
 
-    void Apply(_In_ ID3D11DeviceContext* deviceContext);
+	 void Apply(_In_ ID3D11DeviceContext* deviceContext);
 };
 
 
 // Include the precompiled shader code.
 namespace
 {
+#if defined(_XBOX_ONE) && defined(_TITLE)
+    #include "Shaders/Compiled/XboxOneDualTextureEffect_VSDualTexture.inc"
+    #include "Shaders/Compiled/XboxOneDualTextureEffect_VSDualTextureNoFog.inc"
+    #include "Shaders/Compiled/XboxOneDualTextureEffect_VSDualTextureVc.inc"
+    #include "Shaders/Compiled/XboxOneDualTextureEffect_VSDualTextureVcNoFog.inc"
+
+    #include "Shaders/Compiled/XboxOneDualTextureEffect_PSDualTexture.inc"
+    #include "Shaders/Compiled/XboxOneDualTextureEffect_PSDualTextureNoFog.inc"
+#else
     #include "Shaders/Compiled/DualTextureEffect_VSDualTexture.inc"
     #include "Shaders/Compiled/DualTextureEffect_VSDualTextureNoFog.inc"
     #include "Shaders/Compiled/DualTextureEffect_VSDualTextureVc.inc"
@@ -76,6 +82,7 @@ namespace
 
     #include "Shaders/Compiled/DualTextureEffect_PSDualTexture.inc"
     #include "Shaders/Compiled/DualTextureEffect_PSDualTextureNoFog.inc"
+#endif
 }
 
 
@@ -304,11 +311,6 @@ DXTKAPI void DualTextureEffect::SetTexture2(_In_opt_ ID3D11ShaderResourceView* v
     pImpl->texture2 = value;
 }
 
-#if defined(extern_cplus) && defined(extern_cplusplus)
-	}
-	}
-#elif defined(extern_cplus) && !defined(extern_cplusplus)
-}
-#elif defined(extern_cplusplus) && !defined(extern_cplus)
-}
+#ifdef __cplusplus
+EXTERN_C_END
 #endif

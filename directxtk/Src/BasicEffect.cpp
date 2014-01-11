@@ -15,13 +15,10 @@
 #include "EffectCommon.h"
 
 using namespace DirectX;
+using namespace DirectXTK;
 
-#ifdef extern_cplus
-extern "C" {
-#endif
-
-#ifdef extern_cplusplus
-	extern "C++" {
+#ifdef __cplusplus
+EXTERN_C_BEGIN
 #endif
 
 // Constant buffer layout. Must match the shader!
@@ -63,7 +60,7 @@ struct DXTKAPI BasicEffectTraits
 class DXTKAPI BasicEffect::Impl : public EffectBase<BasicEffectTraits>
 {
 public:
-    Impl(_In_ ID3D11Device* device);
+	 Impl(_In_ ID3D11Device* device);
 
     bool lightingEnabled;
     bool preferPerPixelLighting;
@@ -72,15 +69,53 @@ public:
 
     EffectLights lights;
 
-    int GetCurrentShaderPermutation() const;
+	 int GetCurrentShaderPermutation() const;
 
-    void Apply(_In_ ID3D11DeviceContext* deviceContext);
+	 void Apply(_In_ ID3D11DeviceContext* deviceContext);
 };
 
 
 // Include the precompiled shader code.
 namespace
 {
+#if defined(_XBOX_ONE) && defined(_TITLE)
+    #include "Shaders/Compiled/XboxOneBasicEffect_VSBasic.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_VSBasicNoFog.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_VSBasicVc.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_VSBasicVcNoFog.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_VSBasicTx.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_VSBasicTxNoFog.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_VSBasicTxVc.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_VSBasicTxVcNoFog.inc"
+    
+    #include "Shaders/Compiled/XboxOneBasicEffect_VSBasicVertexLighting.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_VSBasicVertexLightingVc.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_VSBasicVertexLightingTx.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_VSBasicVertexLightingTxVc.inc"
+    
+    #include "Shaders/Compiled/XboxOneBasicEffect_VSBasicOneLight.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_VSBasicOneLightVc.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_VSBasicOneLightTx.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_VSBasicOneLightTxVc.inc"
+    
+    #include "Shaders/Compiled/XboxOneBasicEffect_VSBasicPixelLighting.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_VSBasicPixelLightingVc.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_VSBasicPixelLightingTx.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_VSBasicPixelLightingTxVc.inc"
+
+    #include "Shaders/Compiled/XboxOneBasicEffect_PSBasic.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_PSBasicNoFog.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_PSBasicTx.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_PSBasicTxNoFog.inc"
+
+    #include "Shaders/Compiled/XboxOneBasicEffect_PSBasicVertexLighting.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_PSBasicVertexLightingNoFog.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_PSBasicVertexLightingTx.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_PSBasicVertexLightingTxNoFog.inc"
+
+    #include "Shaders/Compiled/XboxOneBasicEffect_PSBasicPixelLighting.inc"
+    #include "Shaders/Compiled/XboxOneBasicEffect_PSBasicPixelLightingTx.inc"
+#else
     #include "Shaders/Compiled/BasicEffect_VSBasic.inc"
     #include "Shaders/Compiled/BasicEffect_VSBasicNoFog.inc"
     #include "Shaders/Compiled/BasicEffect_VSBasicVc.inc"
@@ -117,6 +152,7 @@ namespace
 
     #include "Shaders/Compiled/BasicEffect_PSBasicPixelLighting.inc"
     #include "Shaders/Compiled/BasicEffect_PSBasicPixelLightingTx.inc"
+#endif
 }
 
 
@@ -554,11 +590,6 @@ DXTKAPI void BasicEffect::SetTexture(_In_opt_ ID3D11ShaderResourceView* value)
     pImpl->texture = value;
 }
 
-#if defined(extern_cplus) && defined(extern_cplusplus)
-	}
-	}
-#elif defined(extern_cplus) && !defined(extern_cplusplus)
-}
-#elif defined(extern_cplusplus) && !defined(extern_cplus)
-}
+#ifdef __cplusplus
+EXTERN_C_END
 #endif

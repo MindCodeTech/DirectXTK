@@ -15,87 +15,75 @@
 
 #include "PlatformHelpers.h"
 
+using namespace DirectXTK;
 
-#ifdef extern_cplus
-extern "C" {
+#ifdef __cplusplus
+EXTERN_C_BEGIN
 #endif
 
-#ifdef extern_cplusplus
-	extern "C++" {
-#endif
+NAMESPACE_DirectX
 
-namespace DirectX
+// Strongly typed wrapper around a D3D constant buffer.
+template<typename T>
+class ConstantBuffer
 {
-    // Strongly typed wrapper around a D3D constant buffer.
-    template<typename T>
-    class DXTKAPI ConstantBuffer
-    {
-    public:
-        // Constructor.
-        ConstantBuffer() {}
-        explicit ConstantBuffer(_In_ ID3D11Device* device)
-        {
-            Create( device );
-        }
-
-
-        void Create(_In_ ID3D11Device* device)
-        {
-            D3D11_BUFFER_DESC desc = { 0 };
-
-            desc.ByteWidth = sizeof(T);
-            desc.Usage = D3D11_USAGE_DYNAMIC;
-            desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-            desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
-            ThrowIfFailed(
-                device->CreateBuffer(&desc, nullptr, mConstantBuffer.ReleaseAndGetAddressOf() )
-            );
-
-            SetDebugObjectName(mConstantBuffer.Get(), "DirectXTK");
-        }
-
-
-        // Writes new data into the constant buffer.
-        void SetData(_In_ ID3D11DeviceContext* deviceContext, T const& value)
-        {
-            assert( mConstantBuffer.Get() != 0 );
-
-            D3D11_MAPPED_SUBRESOURCE mappedResource;
-            
-            ThrowIfFailed(
-                deviceContext->Map(mConstantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource)
-            );
-
-            *(T*)mappedResource.pData = value;
-
-            deviceContext->Unmap(mConstantBuffer.Get(), 0);
-        }
-
-
-        // Looks up the underlying D3D constant buffer.
-        ID3D11Buffer* GetBuffer()
-        {
-            return mConstantBuffer.Get();
-        }
-
-
-    private:
-        // The underlying D3D object.
-        Microsoft::WRL::ComPtr<ID3D11Buffer> mConstantBuffer;
-        
-        
-        // Prevent copying.
-        ConstantBuffer(ConstantBuffer const&);
-        ConstantBuffer& operator= (ConstantBuffer const&);
-    };
-}
-
-#if defined(extern_cplus) && defined(extern_cplusplus)
+public:
+	// Constructor.
+	ConstantBuffer() {}
+	explicit ConstantBuffer(_In_ ID3D11Device* device)
+	{
+		Create(device);
 	}
+
+	void Create(_In_ ID3D11Device* device)
+	{
+		D3D11_BUFFER_DESC desc = { 0 };
+
+		desc.ByteWidth = sizeof(T);
+		desc.Usage = D3D11_USAGE_DYNAMIC;
+		desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+		ThrowIfFailed(
+			device->CreateBuffer(&desc, nullptr, mConstantBuffer.ReleaseAndGetAddressOf())
+			);
+
+		SetDebugObjectName(mConstantBuffer.Get(), "DirectXTK");
 	}
-#elif defined(extern_cplus) && !defined(extern_cplusplus)
-}
-#elif defined(extern_cplusplus) && !defined(extern_cplus)
-}
+
+	// Writes new data into the constant buffer.
+	void SetData(_In_ ID3D11DeviceContext* deviceContext, T const& value)
+	{
+		assert(mConstantBuffer.Get() != 0);
+
+		D3D11_MAPPED_SUBRESOURCE mappedResource;
+
+		ThrowIfFailed(
+			deviceContext->Map(mConstantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource)
+			);
+
+		*(T*)mappedResource.pData = value;
+
+		deviceContext->Unmap(mConstantBuffer.Get(), 0);
+	}
+
+	// Looks up the underlying D3D constant buffer.
+	ID3D11Buffer* GetBuffer()
+	{
+		return mConstantBuffer.Get();
+	}
+
+private:
+	// The underlying D3D object.
+	Microsoft::WRL::ComPtr<ID3D11Buffer> mConstantBuffer;
+
+	// Prevent copying.
+	ConstantBuffer(ConstantBuffer const&);
+	ConstantBuffer& operator= (ConstantBuffer const&);
+};
+
+NAMESPACE_DirectX_END
+
+#ifdef __cplusplus
+EXTERN_C_END
 #endif

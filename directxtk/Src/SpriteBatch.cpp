@@ -21,29 +21,26 @@
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
+using namespace DirectXTK;
 
-#ifdef extern_cplus
-extern "C" {
-#endif
-
-#ifdef extern_cplusplus
-	extern "C++" {
+#ifdef __cplusplus
+EXTERN_C_BEGIN
 #endif
 
 // Internal SpriteBatch implementation class.
 __declspec(align(16)) class DXTKAPI SpriteBatch::Impl : public AlignedNew<SpriteBatch::Impl>
 {
 public:
-    Impl(_In_ ID3D11DeviceContext* deviceContext);
+	 Impl(_In_ ID3D11DeviceContext* deviceContext);
 
-    void XM_CALLCONV Begin(SpriteSortMode sortMode, _In_opt_ ID3D11BlendState* blendState, _In_opt_ ID3D11SamplerState* samplerState, _In_opt_ ID3D11DepthStencilState* depthStencilState, _In_opt_ ID3D11RasterizerState* rasterizerState, _In_opt_ std::function<void()> setCustomShaders, FXMMATRIX transformMatrix);
-    void End();
+	 void XM_CALLCONV Begin(SpriteSortMode sortMode, _In_opt_ ID3D11BlendState* blendState, _In_opt_ ID3D11SamplerState* samplerState, _In_opt_ ID3D11DepthStencilState* depthStencilState, _In_opt_ ID3D11RasterizerState* rasterizerState, _In_opt_ std::function<void()> setCustomShaders, FXMMATRIX transformMatrix);
+	 void End();
 
-    void XM_CALLCONV Draw(_In_ ID3D11ShaderResourceView* texture, FXMVECTOR destination, _In_opt_ RECT const* sourceRectangle, FXMVECTOR color, FXMVECTOR originRotationDepth, int flags);
+	 void XM_CALLCONV Draw(_In_ ID3D11ShaderResourceView* texture, FXMVECTOR destination, _In_opt_ RECT const* sourceRectangle, FXMVECTOR color, FXMVECTOR originRotationDepth, int flags);
 
 
     // Info about a single sprite that is waiting to be drawn.
-	__declspec(align(16)) struct DXTKAPI SpriteInfo : public AlignedNew<SpriteInfo>
+	__declspec(align(16)) struct SpriteInfo : public AlignedNew<SpriteInfo>
     {
         XMFLOAT4A source;
         XMFLOAT4A destination;
@@ -63,18 +60,18 @@ public:
 
 private:
     // Implementation helper methods.
-    void GrowSpriteQueue();
-    void PrepareForRendering();
-    void FlushBatch();
-    void SortSprites();
-    void GrowSortedSprites();
+	 void GrowSpriteQueue();
+	 void PrepareForRendering();
+	 void FlushBatch();
+	 void SortSprites();
+	 void GrowSortedSprites();
 
-    void RenderBatch(_In_ ID3D11ShaderResourceView* texture, _In_reads_(count) SpriteInfo const* const* sprites, size_t count);
+	 void RenderBatch(_In_ ID3D11ShaderResourceView* texture, _In_reads_(count) SpriteInfo const* const* sprites, size_t count);
 
-    static void XM_CALLCONV RenderSprite(_In_ SpriteInfo const* sprite, _Out_cap_c_(VerticesPerSprite) VertexPositionColorTexture* vertices, FXMVECTOR textureSize, FXMVECTOR inverseTextureSize);
+	 static void XM_CALLCONV RenderSprite(_In_ SpriteInfo const* sprite, _Out_cap_c_(VerticesPerSprite) VertexPositionColorTexture* vertices, FXMVECTOR textureSize, FXMVECTOR inverseTextureSize);
 
-    static XMVECTOR GetTextureSize(_In_ ID3D11ShaderResourceView* texture);
-    static XMMATRIX GetViewportTransform(_In_ ID3D11DeviceContext* deviceContext);
+	 static XMVECTOR GetTextureSize(_In_ ID3D11ShaderResourceView* texture);
+	 static XMMATRIX GetViewportTransform(_In_ ID3D11DeviceContext* deviceContext);
 
 
     // Constants.
@@ -118,9 +115,9 @@ private:
 
 
     // Only one of these helpers is allocated per D3D device, even if there are multiple SpriteBatch instances.
-    struct DXTKAPI DeviceResources
+	struct DXTKAPI DeviceResources
     {
-        DeviceResources(_In_ ID3D11Device* device);
+		 DeviceResources(_In_ ID3D11Device* device);
 
         ComPtr<ID3D11VertexShader> vertexShader;
         ComPtr<ID3D11PixelShader> pixelShader;
@@ -130,17 +127,17 @@ private:
         CommonStates stateObjects;
 
     private:
-        void CreateShaders(_In_ ID3D11Device* device);
-        void CreateIndexBuffer(_In_ ID3D11Device* device);
+		 void CreateShaders(_In_ ID3D11Device* device);
+		 void CreateIndexBuffer(_In_ ID3D11Device* device);
 
-        static std::vector<short> CreateIndexValues();
+		 static std::vector<short> CreateIndexValues();
     };
 
 
     // Only one of these helpers is allocated per D3D device context, even if there are multiple SpriteBatch instances.
-    struct DXTKAPI ContextResources
+	struct DXTKAPI ContextResources
     {
-        ContextResources(_In_ ID3D11DeviceContext* deviceContext);
+		 ContextResources(_In_ ID3D11DeviceContext* deviceContext);
 
         ComPtr<ID3D11DeviceContext> deviceContext;
         ComPtr<ID3D11Buffer> vertexBuffer;
@@ -152,7 +149,7 @@ private:
         bool inImmediateMode;
 
     private:
-        void CreateVertexBuffer();
+		 void CreateVertexBuffer();
     };
 
 
@@ -166,8 +163,8 @@ private:
 
 
 // Global pools of per-device and per-context SpriteBatch resources.
-SharedResourcePool<ID3D11Device*, SpriteBatch::Impl::DeviceResources> SpriteBatch::Impl::deviceResourcesPool;
-SharedResourcePool<ID3D11DeviceContext*, SpriteBatch::Impl::ContextResources> SpriteBatch::Impl::contextResourcesPool;
+DXTKAPI SharedResourcePool<ID3D11Device*, SpriteBatch::Impl::DeviceResources> SpriteBatch::Impl::deviceResourcesPool;
+DXTKAPI SharedResourcePool<ID3D11DeviceContext*, SpriteBatch::Impl::ContextResources> SpriteBatch::Impl::contextResourcesPool;
 
 
 // Constants.
@@ -178,8 +175,13 @@ DXTKAPI const XMFLOAT2 SpriteBatch::Float2Zero(0, 0);
 namespace
 {
     // Include the precompiled shader code.
+#if defined(_XBOX_ONE) && defined(_TITLE)
+    #include "Shaders/Compiled/XboxOneSpriteEffect_SpriteVertexShader.inc"
+    #include "Shaders/Compiled/XboxOneSpriteEffect_SpritePixelShader.inc"
+#else
     #include "Shaders/Compiled/SpriteEffect_SpriteVertexShader.inc"
     #include "Shaders/Compiled/SpriteEffect_SpritePixelShader.inc"
+#endif
 
 
     // Helper looks up the D3D device corresponding to a context interface.
@@ -1001,11 +1003,6 @@ DXTKAPI void XM_CALLCONV SpriteBatch::Draw(_In_ ID3D11ShaderResourceView* textur
     pImpl->Draw(texture, destination, sourceRectangle, color, originRotationDepth, effects | Impl::SpriteInfo::DestSizeInPixels);
 }
 
-#if defined(extern_cplus) && defined(extern_cplusplus)
-	}
-	}
-#elif defined(extern_cplus) && !defined(extern_cplusplus)
-}
-#elif defined(extern_cplusplus) && !defined(extern_cplus)
-}
+#ifdef __cplusplus
+EXTERN_C_END
 #endif

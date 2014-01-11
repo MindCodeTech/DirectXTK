@@ -4,15 +4,6 @@
     <Filter Include="Inc">
       <UniqueIdentifier>{771f5f80-d173-49c3-8afb-790e8f7cb0ce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src">
-      <UniqueIdentifier>{c52e19b6-8703-49a1-9b36-101a05b4745d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Shaders">
-      <UniqueIdentifier>{8b9684a9-ce4f-4243-a9cf-afb261a778c5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Shaders\Compiled">
-      <UniqueIdentifier>{3ef463d8-79c9-40da-96f1-63e3bf9ba2a0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="WICTextureLoader">
       <UniqueIdentifier>{cbe05132-92ec-4bbc-888b-94d3442df13f}</UniqueIdentifier>
     </Filter>
@@ -24,6 +15,18 @@
     </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{cf0a3617-5886-44ed-a094-2151e4f9a421}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{5fa0ad41-61d2-41a8-9a7d-3b4130fe6f5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{c52e19b6-8703-49a1-9b36-101a05b4745d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Shaders">
+      <UniqueIdentifier>{8b9684a9-ce4f-4243-a9cf-afb261a778c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Shaders\Compiled">
+      <UniqueIdentifier>{3ef463d8-79c9-40da-96f1-63e3bf9ba2a0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -88,12 +91,6 @@
       <Filter>Src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\directxtk\Resources\resource.h" />
-    <ClInclude Include="..\..\directxtk\Src\DirectXTKexp.h">
-      <Filter>Src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\directxtk\Src\DirectXTKvers.h">
-      <Filter>Src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\directxtk\Src\DDS.h">
       <Filter>DDSTextureLoader</Filter>
     </ClInclude>
@@ -105,6 +102,20 @@
     </ClInclude>
     <ClInclude Include="..\..\directxtk\Inc\WICTextureLoader.h">
       <Filter>WICTextureLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\directxtk\Src\DirectXTKexp.h" />
+    <ClInclude Include="..\..\directxtk\Src\DirectXTKvers.h" />
+    <ClInclude Include="..\..\directxtk\Audio\SoundCommon.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\directxtk\Audio\WaveBankReader.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\directxtk\Audio\WAVFileReader.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\directxtk\Inc\Audio.h">
+      <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -177,8 +188,30 @@
     <ClCompile Include="..\..\directxtk\Src\DGSLEffectFactory.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\directxtk\Src\DirectXTKDLL.cpp">
-      <Filter>Src</Filter>
+    <ClCompile Include="..\..\directxtk\Src\DirectXTKDLL.cpp" />
+    <ClCompile Include="..\..\directxtk\Audio\AudioEngine.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\directxtk\Audio\DynamicSoundEffectInstance.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\directxtk\Audio\SoundCommon.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\directxtk\Audio\SoundEffect.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\directxtk\Audio\SoundEffectInstance.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\directxtk\Audio\WaveBank.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\directxtk\Audio\WaveBankReader.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\directxtk\Audio\WAVFileReader.cpp">
+      <Filter>Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -473,7 +506,6 @@
     <None Include="..\..\directxtk\Src\Shaders\Compiled\DGSLUnlit_mainTxTk.inc">
       <Filter>Src\Shaders\Compiled</Filter>
     </None>
-    <None Include="..\..\directxtk\src\directxtk.def" />
     <None Include="..\..\Readme.txt" />
   </ItemGroup>
   <ItemGroup>

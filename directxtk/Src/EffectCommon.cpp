@@ -17,14 +17,10 @@
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
+using namespace DirectXTK;
 
-
-#ifdef extern_cplus
-extern "C" {
-#endif
-
-#ifdef extern_cplusplus
-	extern "C++" {
+#ifdef __cplusplus
+EXTERN_C_BEGIN
 #endif
 
 // Constructor initializes default matrix values.
@@ -39,7 +35,7 @@ DXTKAPI EffectMatrices::EffectMatrices()
 
 // Lazily recomputes the combined world+view+projection matrix.
 _Use_decl_annotations_ 
-	DXTKAPI void EffectMatrices::SetConstants(int& dirtyFlags, XMMATRIX& worldViewProjConstant)
+DXTKAPI void EffectMatrices::SetConstants(int& dirtyFlags, XMMATRIX& worldViewProjConstant)
 {
     if (dirtyFlags & EffectDirtyFlags::WorldViewProj)
     {
@@ -153,7 +149,7 @@ DXTKAPI EffectLights::EffectLights()
 
 // Initializes constant buffer fields to match the current lighting state.
 _Use_decl_annotations_ 
-	DXTKAPI void EffectLights::InitializeConstants(XMVECTOR& specularColorAndPowerConstant, XMVECTOR* lightDirectionConstant, XMVECTOR* lightDiffuseConstant, XMVECTOR* lightSpecularConstant)
+DXTKAPI void EffectLights::InitializeConstants(XMVECTOR& specularColorAndPowerConstant, XMVECTOR* lightDirectionConstant, XMVECTOR* lightDiffuseConstant, XMVECTOR* lightSpecularConstant)
 {
     static const XMVECTORF32 defaultSpecular = { 1, 1, 1, 16 };
     static const XMVECTORF32 defaultLightDirection = { 0, -1, 0, 0 };
@@ -172,7 +168,7 @@ _Use_decl_annotations_
 
 // Lazily recomputes derived parameter values used by shader lighting calculations.
 _Use_decl_annotations_ 
-	DXTKAPI void EffectLights::SetConstants(int& dirtyFlags, EffectMatrices const& matrices, XMMATRIX& worldConstant, XMVECTOR worldInverseTransposeConstant[3], XMVECTOR& eyePositionConstant, XMVECTOR& diffuseColorConstant, XMVECTOR& emissiveColorConstant, bool lightingEnabled)
+DXTKAPI void EffectLights::SetConstants(int& dirtyFlags, EffectMatrices const& matrices, XMMATRIX& worldConstant, XMVECTOR worldInverseTransposeConstant[3], XMVECTOR& eyePositionConstant, XMVECTOR& diffuseColorConstant, XMVECTOR& emissiveColorConstant, bool lightingEnabled)
 {
     if (lightingEnabled)
     {
@@ -251,7 +247,7 @@ _Use_decl_annotations_
 
 // Helper for turning one of the directional lights on or off.
 _Use_decl_annotations_ 
-	DXTKAPI int EffectLights::SetLightEnabled(int whichLight, bool value, XMVECTOR* lightDiffuseConstant, XMVECTOR* lightSpecularConstant)
+DXTKAPI int EffectLights::SetLightEnabled(int whichLight, bool value, XMVECTOR* lightDiffuseConstant, XMVECTOR* lightSpecularConstant)
 {
     ValidateLightIndex(whichLight);
 
@@ -439,11 +435,6 @@ DXTKAPI ID3D11ShaderResourceView* EffectDeviceResources::GetDefaultTexture()
     });
 }
 
-#if defined(extern_cplus) && defined(extern_cplusplus)
-	}
-	}
-#elif defined(extern_cplus) && !defined(extern_cplusplus)
-}
-#elif defined(extern_cplusplus) && !defined(extern_cplus)
-}
+#ifdef __cplusplus
+EXTERN_C_END
 #endif

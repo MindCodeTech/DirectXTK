@@ -17,29 +17,25 @@
 using namespace DirectX;
 using namespace DirectX::Internal;
 using namespace Microsoft::WRL;
+using namespace DirectXTK;
 
-
-#ifdef extern_cplus
-extern "C" {
-#endif
-
-#ifdef extern_cplusplus
-	extern "C++" {
+#ifdef __cplusplus
+EXTERN_C_BEGIN
 #endif
 
 // Internal PrimitiveBatch implementation class.
 class DXTKAPI PrimitiveBatchBase::Impl
 {
 public:
-    Impl(_In_ ID3D11DeviceContext* deviceContext, size_t maxIndices, size_t maxVertices, size_t vertexSize);
+	 Impl(_In_ ID3D11DeviceContext* deviceContext, size_t maxIndices, size_t maxVertices, size_t vertexSize);
 
-    void Begin();
-    void End();
+	 void Begin();
+	 void End();
 
-    void Draw(D3D11_PRIMITIVE_TOPOLOGY topology, bool isIndexed, _In_opt_count_(indexCount) uint16_t const* indices, size_t indexCount, size_t vertexCount, _Out_ void** pMappedVertices);
+	 void Draw(D3D11_PRIMITIVE_TOPOLOGY topology, bool isIndexed, _In_opt_count_(indexCount) uint16_t const* indices, size_t indexCount, size_t vertexCount, _Out_ void** pMappedVertices);
 
 private:
-    void FlushBatch();
+	 void FlushBatch();
 
     ComPtr<ID3D11DeviceContext> mDeviceContext;
     ComPtr<ID3D11Buffer> mIndexBuffer;
@@ -328,11 +324,6 @@ DXTKAPI void PrimitiveBatchBase::Draw(D3D11_PRIMITIVE_TOPOLOGY topology, bool is
     pImpl->Draw(topology, isIndexed, indices, indexCount, vertexCount, pMappedVertices);
 }
 
-#if defined(extern_cplus) && defined(extern_cplusplus)
-	}
-	}
-#elif defined(extern_cplus) && !defined(extern_cplusplus)
-}
-#elif defined(extern_cplusplus) && !defined(extern_cplus)
-}
+#ifdef __cplusplus
+EXTERN_C_END
 #endif

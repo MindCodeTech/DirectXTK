@@ -15,12 +15,8 @@
 
 using namespace DirectX::SimpleMath;
 
-#ifdef extern_cplus
-extern "C" {
-#endif
-
-#ifdef extern_cplusplus
-	extern "C++" {
+#ifdef __cplusplus
+EXTERN_C_BEGIN
 #endif
 
 /****************************************************************************
@@ -3310,11 +3306,6 @@ inline bool Ray::Intersects( const Plane& plane, _Out_ float& Dist ) const
     }
 }
 
-#if defined(extern_cplus) && defined(extern_cplusplus)
-	}
-	}
-#elif defined(extern_cplus) && !defined(extern_cplusplus)
-}
-#elif defined(extern_cplusplus) && !defined(extern_cplus)
-}
+#ifdef __cplusplus
+EXTERN_C_END
 #endif

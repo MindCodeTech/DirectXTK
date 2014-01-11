@@ -24,16 +24,12 @@
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
+using namespace DirectXTK;
 using namespace DDSTextureLoader;
 using namespace WICTextureLoader;
 
-
-#ifdef extern_cplus
-extern "C" {
-#endif
-
-#ifdef extern_cplusplus
-	extern "C++" {
+#ifdef __cplusplus
+EXTERN_C_BEGIN
 #endif
 
 // Internal EffectFactory implementation class. Only one of these helpers is allocated
@@ -41,15 +37,15 @@ extern "C" {
 class DXTKAPI EffectFactory::Impl
 {
 public:
-    Impl(_In_ ID3D11Device* device)
+	 Impl(_In_ ID3D11Device* device)
       : device(device), mSharing(true)
     { *mPath = 0; }
 
-    std::shared_ptr<IEffect> CreateEffect( _In_ IEffectFactory* factory, _In_ const IEffectFactory::EffectInfo& info, _In_opt_ ID3D11DeviceContext* deviceContext );
-    void CreateTexture( _In_z_ const WCHAR* texture, _In_opt_ ID3D11DeviceContext* deviceContext, _Outptr_ ID3D11ShaderResourceView** textureView );
+	 std::shared_ptr<IEffect> CreateEffect(_In_ IEffectFactory* factory, _In_ const IEffectFactory::EffectInfo& info, _In_opt_ ID3D11DeviceContext* deviceContext);
+	 void CreateTexture(_In_z_ const WCHAR* texture, _In_opt_ ID3D11DeviceContext* deviceContext, _Outptr_ ID3D11ShaderResourceView** textureView);
 
-    void ReleaseCache();
-    void SetSharing( bool enabled ) { mSharing = enabled; }
+	 void ReleaseCache();
+	  void SetSharing(bool enabled) { mSharing = enabled; }
 
     static SharedResourcePool<ID3D11Device*, Impl> instancePool;
 
@@ -72,11 +68,11 @@ private:
 
 
 // Global instance pool.
-SharedResourcePool<ID3D11Device*, EffectFactory::Impl> EffectFactory::Impl::instancePool;
+DXTKAPI SharedResourcePool<ID3D11Device*, EffectFactory::Impl> EffectFactory::Impl::instancePool;
 
 
 _Use_decl_annotations_
-DXTKAPI std::shared_ptr<IEffect> EffectFactory::Impl::CreateEffect( IEffectFactory* factory, const IEffectFactory::EffectInfo& info, ID3D11DeviceContext* deviceContext )
+DXTKAPI std::shared_ptr<IEffect> EffectFactory::Impl::CreateEffect(IEffectFactory* factory, const IEffectFactory::EffectInfo& info, ID3D11DeviceContext* deviceContext)
 {
     if ( info.enableSkinning )
     {
@@ -202,7 +198,7 @@ DXTKAPI std::shared_ptr<IEffect> EffectFactory::Impl::CreateEffect( IEffectFacto
 }
 
 _Use_decl_annotations_
-DXTKAPI void EffectFactory::Impl::CreateTexture( const WCHAR* name, ID3D11DeviceContext* deviceContext, ID3D11ShaderResourceView** textureView )
+DXTKAPI void EffectFactory::Impl::CreateTexture(const WCHAR* name, ID3D11DeviceContext* deviceContext, ID3D11ShaderResourceView** textureView)
 {
     if ( !name || !textureView )
         throw std::exception("invalid arguments");
@@ -227,27 +223,40 @@ DXTKAPI void EffectFactory::Impl::CreateTexture( const WCHAR* name, ID3D11Device
 
         if ( _wcsicmp( ext, L".dds" ) == 0 )
         {
-            ThrowIfFailed(
-                CreateDDSTextureFromFile( device.Get(), fullName, nullptr, textureView )
-                );
+            HRESULT hr = CreateDDSTextureFromFile( device.Get(), fullName, nullptr, textureView );
+            if ( FAILED(hr) )
+            {
+                DebugTrace( "CreateDDSTextureFromFile failed (%08X) for '%S'\n", hr, fullName );
+                throw std::exception( "CreateDDSTextureFromFile" );
+            }
         }
         else if ( deviceContext )
         {
             std::lock_guard<std::mutex> lock(mutex);
-            DirectX::ThrowIfFailed(
-                CreateWICTextureFromFile( device.Get(), deviceContext, fullName, nullptr, textureView )
-                );
+            HRESULT hr = CreateWICTextureFromFile( device.Get(), deviceContext, fullName, nullptr, textureView );
+            if ( FAILED(hr) )
+            {
+                DebugTrace( "CreateWICTextureFromFile failed (%08X) for '%S'\n", hr, fullName );
+                throw std::exception( "CreateWICTextureFromFile" );
+            }
         }
         else
         {
-            DirectX::ThrowIfFailed(
-                CreateWICTextureFromFile( device.Get(), nullptr, fullName, nullptr, textureView )
-                );
+            HRESULT hr = CreateWICTextureFromFile( device.Get(), nullptr, fullName, nullptr, textureView );
+            if ( FAILED(hr) )
+            {
+                DebugTrace( "CreateWICTextureFromFile failed (%08X) for '%S'\n", hr, fullName );
+                throw std::exception( "CreateWICTextureFromFile" );
+            }
         }
 #else
         UNREFERENCED_PARAMETER( deviceContext );
-        ThrowIfFailed(
-            CreateDDSTextureFromFile( device.Get(), fullName, nullptr, textureView ) );
+        HRESULT hr = CreateDDSTextureFromFile( device.Get(), fullName, nullptr, textureView );
+        if ( FAILED(hr) )
+        {
+            DebugTrace( "CreateDDSTextureFromFile failed (%08X) for '%S'\n", hr, fullName );
+            throw std::exception( "CreateDDSTextureFromFile" );
+        }
 #endif
 
         if ( mSharing && *name && it == mTextureCache.end() )
@@ -294,13 +303,13 @@ DXTKAPI EffectFactory& EffectFactory::operator= (EffectFactory&& moveFrom)
 }
 
 _Use_decl_annotations_
-DXTKAPI std::shared_ptr<IEffect> EffectFactory::CreateEffect( const EffectInfo& info, ID3D11DeviceContext* deviceContext )
+DXTKAPI std::shared_ptr<IEffect> EffectFactory::CreateEffect(const EffectInfo& info, ID3D11DeviceContext* deviceContext)
 {
     return pImpl->CreateEffect( this, info, deviceContext );
 }
 
 _Use_decl_annotations_
-DXTKAPI void EffectFactory::CreateTexture( const WCHAR* name, ID3D11DeviceContext* deviceContext, ID3D11ShaderResourceView** textureView )
+DXTKAPI void EffectFactory::CreateTexture(const WCHAR* name, ID3D11DeviceContext* deviceContext, ID3D11ShaderResourceView** textureView)
 {
     return pImpl->CreateTexture( name, deviceContext, textureView );
 }
@@ -310,12 +319,12 @@ DXTKAPI void EffectFactory::ReleaseCache()
     pImpl->ReleaseCache();
 }
 
-DXTKAPI void EffectFactory::SetSharing( bool enabled )
+DXTKAPI void EffectFactory::SetSharing(bool enabled)
 {
     pImpl->SetSharing( enabled );
 }
 
-DXTKAPI void EffectFactory::SetDirectory( _In_opt_z_ const WCHAR* path )
+DXTKAPI void EffectFactory::SetDirectory(_In_opt_z_ const WCHAR* path)
 {
     if ( path && *path != 0 )
     {
@@ -335,11 +344,6 @@ DXTKAPI void EffectFactory::SetDirectory( _In_opt_z_ const WCHAR* path )
         *pImpl->mPath = 0;
 }
 
-#if defined(extern_cplus) && defined(extern_cplusplus)
-	}
-	}
-#elif defined(extern_cplus) && !defined(extern_cplusplus)
-}
-#elif defined(extern_cplusplus) && !defined(extern_cplus)
-}
+#ifdef __cplusplus
+EXTERN_C_END
 #endif

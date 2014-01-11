@@ -16,14 +16,10 @@
 #include "BinaryReader.h"
 
 using namespace DirectX;
+using namespace DirectXTK;
 
-
-#ifdef extern_cplus
-extern "C" {
-#endif
-
-#ifdef extern_cplusplus
-	extern "C++" {
+#ifdef __cplusplus
+EXTERN_C_BEGIN
 #endif
 
 // Constructor reads from the filesystem.
@@ -31,9 +27,12 @@ DXTKAPI BinaryReader::BinaryReader(_In_z_ wchar_t const* fileName)
 {
     size_t dataSize;
 
-    ThrowIfFailed(
-        ReadEntireFile(fileName, mOwnedData, &dataSize)
-    );
+    HRESULT hr = ReadEntireFile(fileName, mOwnedData, &dataSize);
+    if ( FAILED(hr) )
+    {
+        DebugTrace( "BinaryReader failed (%08X) to load '%S'\n", hr, fileName );
+        throw std::exception( "BinaryReader" );
+    }
 
     mPos = mOwnedData.get();
     mEnd = mOwnedData.get() + dataSize;
@@ -103,11 +102,6 @@ DXTKAPI HRESULT BinaryReader::ReadEntireFile(_In_z_ wchar_t const* fileName, _In
     return S_OK;
 }
 
-#if defined(extern_cplus) && defined(extern_cplusplus)
-	}
-	}
-#elif defined(extern_cplus) && !defined(extern_cplusplus)
-}
-#elif defined(extern_cplusplus) && !defined(extern_cplus)
-}
+#ifdef __cplusplus
+EXTERN_C_END
 #endif
