@@ -25,13 +25,13 @@
 // combinations to build up whatever subset is needed by each effect.
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
-NAMESPACE_DirectX
+namespace_DirectX
 
 // Bitfield tracks which derived parameter values need to be recomputed.
-NAMESPACE_EffectDirtyFlags
+namespace_EffectDirtyFlags
 
 const int ConstantBuffer = 0x01;
 const int WorldViewProj = 0x02;
@@ -42,7 +42,7 @@ const int FogVector = 0x20;
 const int FogEnable = 0x40;
 const int AlphaTest = 0x80;
 
-NAMESPACE_EffectDirtyFlags_END
+namespace_EffectDirtyFlags_end
 
 // Helper stores matrix parameter values, and computes derived matrices.
 struct DXTKAPI EffectMatrices
@@ -248,8 +248,8 @@ private:
 	static SharedResourcePool<ID3D11Device*, DeviceResources> deviceResourcesPool;
 };
 
-NAMESPACE_DirectX_END
+namespace_DirectX_end
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

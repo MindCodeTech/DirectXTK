@@ -20,7 +20,7 @@ using namespace Microsoft::WRL;
 using namespace DirectXTK;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
 // Constructor initializes default matrix values.
@@ -436,5 +436,5 @@ DXTKAPI ID3D11ShaderResourceView* EffectDeviceResources::GetDefaultTexture()
 }
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

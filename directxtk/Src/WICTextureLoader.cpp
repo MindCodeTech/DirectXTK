@@ -37,11 +37,11 @@ using namespace DirectXTK;
 using namespace WICTextureLoader;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
-NAMESPACE_DirectXTK
-NAMESPACE_WICTextureLoader
+namespace_DirectXTK
+namespace_WICTextureLoader
 
 //-------------------------------------------------------------------------------------
 // WIC Pixel Format Translation Data
@@ -874,9 +874,9 @@ ID3D11ShaderResourceView** textureView)
 	return hr;
 }
 
-NAMESPACE_WICTextureLoader_END
-NAMESPACE_DirectXTK_END
+namespace_WICTextureLoader_end
+namespace_DirectXTK_end
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

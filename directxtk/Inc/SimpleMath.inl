@@ -13,10 +13,10 @@
 
 #pragma once
 
-using namespace DirectX::SimpleMath;
+//using namespace DirectX::SimpleMath;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
 /****************************************************************************
@@ -3307,5 +3307,5 @@ inline bool Ray::Intersects( const Plane& plane, _Out_ float& Dist ) const
 }
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

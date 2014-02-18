@@ -25,7 +25,7 @@ using namespace DirectXTK;
 #endif
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
 //--------------------------------------------------------------------------------------
@@ -274,5 +274,5 @@ DXTKAPI void Model::UpdateEffects(_In_ std::function<void(IEffect*)> setEffect)
 }
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

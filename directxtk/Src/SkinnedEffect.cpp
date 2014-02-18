@@ -18,7 +18,7 @@ using namespace DirectX;
 using namespace DirectXTK;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
 // Constant buffer layout. Must match the shader!
@@ -531,6 +531,6 @@ DXTKAPI void SkinnedEffect::ResetBoneTransforms()
 }
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif
 

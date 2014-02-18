@@ -26,7 +26,7 @@ using namespace Microsoft::WRL;
 using namespace DirectXTK;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
 //--------------------------------------------------------------------------------------
@@ -35,7 +35,7 @@ EXTERN_C_BEGIN
 // http://code.msdn.microsoft.com/Visual-Studio-3D-Starter-455a15f1
 //--------------------------------------------------------------------------------------
 
-NAMESPACE_VSD3DStarter
+namespace_VSD3DStarter
 
 // .CMO files
 
@@ -162,7 +162,7 @@ struct DXTKAPI Keyframe
 
 #pragma pack(pop)
 
-NAMESPACE_VSD3DStarter_END; // namespace
+namespace_VSD3DStarter_end; // namespace
 
 //--------------------------------------------------------------------------------------
 struct DXTKAPI MaterialRecordCMO
@@ -838,5 +838,5 @@ DXTKAPI std::unique_ptr<Model> DirectX::Model::CreateFromCMO(ID3D11Device* d3dDe
 }
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

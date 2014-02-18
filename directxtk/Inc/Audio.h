@@ -28,10 +28,10 @@
 // VS 2010 considers 'override' to be a extension, but it's part of C++11 as of VS 2012
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
-NAMESPACE_DirectX
+namespace_DirectX
 
     class SoundEffectInstance;
 
@@ -636,10 +636,10 @@ NAMESPACE_DirectX
 		DynamicSoundEffectInstance& operator= (DynamicSoundEffectInstance const&);
     };
 
-NAMESPACE_DirectX_END
+namespace_DirectX_end
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif
 
 #pragma warning(pop)

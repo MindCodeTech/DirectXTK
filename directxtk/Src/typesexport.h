@@ -6,7 +6,7 @@ using namespace DirectX;
 
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
 
@@ -44,7 +44,7 @@ typedef vector mvector;
 };
 }*/
 
-NAMESPACE_DirectX
+namespace_DirectX
 
 typedef struct DXTKAPI XMFLOAT2 XMFLOAT2;
 typedef struct DXTKAPI XMFLOAT3 XMFLOAT3;
@@ -62,9 +62,9 @@ typedef DXTKAPI const XMVECTOR& HXMVECTOR;
 typedef DXTKAPI const XMMATRIX& FXMMATRIX;
 #endif
 
-NAMESPACE_DirectX_END
+namespace_DirectX_end
 
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

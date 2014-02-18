@@ -37,11 +37,11 @@ using namespace ScreenGrab;
 #include "PlatformHelpers.h"
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
-NAMESPACE_DirectXTK
-NAMESPACE_ScreenGrab
+namespace_DirectXTK
+namespace_ScreenGrab
 
 //--------------------------------------------------------------------------------------
 // Return the BPP for a particular format
@@ -443,7 +443,7 @@ _Inout_ ScopedObject<ID3D11Texture2D>& pStaging)
 
 extern bool g_WIC2 = false;
 
-DXTKEXTERN  DXTKAPI IWICImagingFactory* _GetWIC()
+DXTKEXTERNCC  DXTKAPI IWICImagingFactory* _GetWIC()
 {
 	static IWICImagingFactory* s_Factory = nullptr;
 
@@ -930,9 +930,9 @@ _In_opt_ std::function<void(IPropertyBag2*)> setCustomProps)
 
 #endif // !WINAPI_FAMILY || (WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP)
 
-NAMESPACE_ScreenGrab_END
-NAMESPACE_DirectXTK_END
+namespace_ScreenGrab_end
+namespace_DirectXTK_end
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

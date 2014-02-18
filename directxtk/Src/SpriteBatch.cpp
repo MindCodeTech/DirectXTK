@@ -24,7 +24,7 @@ using namespace Microsoft::WRL;
 using namespace DirectXTK;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
 // Internal SpriteBatch implementation class.
@@ -1004,5 +1004,5 @@ DXTKAPI void XM_CALLCONV SpriteBatch::Draw(_In_ ID3D11ShaderResourceView* textur
 }
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

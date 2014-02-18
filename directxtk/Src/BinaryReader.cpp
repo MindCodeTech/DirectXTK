@@ -19,7 +19,7 @@ using namespace DirectX;
 using namespace DirectXTK;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
 // Constructor reads from the filesystem.
@@ -103,5 +103,5 @@ DXTKAPI HRESULT BinaryReader::ReadEntireFile(_In_z_ wchar_t const* fileName, _In
 }
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

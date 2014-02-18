@@ -21,11 +21,11 @@
 #pragma once
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
-NAMESPACE_DirectXTK
-NAMESPACE_ScreenGrab
+namespace_DirectXTK
+namespace_ScreenGrab
 
 DXTKAPI HRESULT SaveDDSTextureToFile(_In_ ID3D11DeviceContext* pContext,
 									_In_ ID3D11Resource* pSource,
@@ -42,9 +42,9 @@ DXTKAPI HRESULT SaveWICTextureToFile(_In_ ID3D11DeviceContext* pContext,
 
 #endif
 
-NAMESPACE_ScreenGrab_END
-NAMESPACE_DirectXTK_END
+namespace_ScreenGrab_end
+namespace_DirectXTK_end
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

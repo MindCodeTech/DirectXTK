@@ -21,10 +21,10 @@
 #pragma once
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
-NAMESPACE_DirectXTK
+namespace_DirectXTK
 
 #pragma pack(push,1)
 
@@ -261,8 +261,8 @@ struct DXTKAPI DDS_HEADER_DXT10
 static_assert( sizeof(DDS_HEADER) == 124, "DDS Header size mismatch" );
 static_assert( sizeof(DDS_HEADER_DXT10) == 24, "DDS DX10 Extended Header size mismatch");
 
-NAMESPACE_DirectXTK_END
+namespace_DirectXTK_end
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

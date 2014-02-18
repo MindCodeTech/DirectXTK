@@ -21,7 +21,7 @@ using namespace Microsoft::WRL;
 using namespace DirectXTK;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
 // Internal state object implementation class. Only one of these helpers is allocated
@@ -372,5 +372,5 @@ DXTKAPI ID3D11SamplerState* CommonStates::AnisotropicClamp() const
 }
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

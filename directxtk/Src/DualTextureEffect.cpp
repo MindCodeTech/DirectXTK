@@ -19,7 +19,7 @@ using namespace Microsoft::WRL;
 using namespace DirectXTK;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
 // Constant buffer layout. Must match the shader!
@@ -312,5 +312,5 @@ DXTKAPI void DualTextureEffect::SetTexture2(_In_opt_ ID3D11ShaderResourceView* v
 }
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

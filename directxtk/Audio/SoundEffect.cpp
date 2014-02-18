@@ -19,7 +19,7 @@ using namespace DirectX;
 using namespace DirectXTK;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
 //======================================================================================
@@ -584,5 +584,5 @@ DXTKAPI void SoundEffect::FillSubmitBuffer(_Out_ XAUDIO2_BUFFER& buffer) const
 #endif
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

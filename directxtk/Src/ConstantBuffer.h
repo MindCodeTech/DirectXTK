@@ -18,10 +18,10 @@
 using namespace DirectXTK;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
-NAMESPACE_DirectX
+namespace_DirectX
 
 // Strongly typed wrapper around a D3D constant buffer.
 template<typename T>
@@ -82,8 +82,8 @@ private:
 	ConstantBuffer& operator= (ConstantBuffer const&);
 };
 
-NAMESPACE_DirectX_END
+namespace_DirectX_end
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

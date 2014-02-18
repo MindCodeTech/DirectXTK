@@ -14,10 +14,10 @@
 #pragma once
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
-NAMESPACE_DirectXTK
+namespace_DirectXTK
 
 // Helper utility converts D3D API failures into exceptions.
 inline void ThrowIfFailed(HRESULT hr)
@@ -171,12 +171,12 @@ private:
 };
 
 #endif
-NAMESPACE_DirectXTK_END
+namespace_DirectXTK_end
 
 #if defined(_MSC_VER) && (_MSC_VER < 1610)
 
 // Emulate the C++0x mutex and lock_guard types when building with Visual Studio versions < 2012.
-NAMESPACE_std
+namespace_std
 
 class mutex
 {
@@ -219,7 +219,7 @@ private:
 	lock_guard& operator= (lock_guard const&);
 };
 
-NAMESPACE_std_END
+namespace_std_end
 
 #else   // _MSC_VER < 1610
 
@@ -228,5 +228,5 @@ NAMESPACE_std_END
 #endif
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

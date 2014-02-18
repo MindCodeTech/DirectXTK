@@ -27,11 +27,11 @@
 using namespace DirectX;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
-NAMESPACE_DirectXTK
-NAMESPACE_DDSTextureLoader
+namespace_DirectXTK
+namespace_DDSTextureLoader
 
 //--------------------------------------------------------------------------------------
 _Use_decl_annotations_
@@ -1462,9 +1462,9 @@ DXTKAPI HRESULT CreateDDSTextureFromFileEx(ID3D11Device* d3dDevice,
 	return hr;
 }
 
-NAMESPACE_DDSTextureLoader_END
-NAMESPACE_DirectXTK_END
+namespace_DDSTextureLoader_end
+namespace_DirectXTK_end
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

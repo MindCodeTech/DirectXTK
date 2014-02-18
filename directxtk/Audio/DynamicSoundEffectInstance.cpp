@@ -18,7 +18,7 @@ using namespace DirectX;
 using namespace DirectXTK;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
 //======================================================================================
@@ -392,5 +392,5 @@ DXTKAPI const WAVEFORMATEX* DynamicSoundEffectInstance::GetFormat() const
 }
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

@@ -27,7 +27,7 @@ using namespace DirectXTK;
 #pragma warning(disable : 4121)
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
 //--------------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ EXTERN_C_BEGIN
 //
 // http://go.microsoft.com/fwlink/?LinkId=226208
 //--------------------------------------------------------------------------------------
-NAMESPACE_DXUT
+namespace_DXUT
 
 // .SDKMESH files
 
@@ -355,7 +355,7 @@ struct DXTKAPI SDKANIMATION_FRAME_DATA
 
 #pragma pack(pop)
 
-NAMESPACE_DXUT_END; // namespace
+namespace_DXUT_end; // namespace
 
 static_assert(sizeof(DXUT::D3DVERTEXELEMENT9) == 8, "Direct3D9 Decl structure size incorrect");
 static_assert(sizeof(DXUT::SDKMESH_HEADER) == 104, "SDK Mesh structure size incorrect");
@@ -859,5 +859,5 @@ DXTKAPI std::unique_ptr<Model> DirectX::Model::CreateFromSDKMESH(ID3D11Device* d
 }
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

@@ -21,7 +21,7 @@ using namespace DirectX;
 using namespace DirectXTK;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
 namespace
@@ -691,5 +691,5 @@ DXTKAPI HRESULT DirectX::LoadWAVAudioFromFileEx(const wchar_t* szFileName, std::
 }
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

@@ -20,7 +20,7 @@ using namespace DirectX;
 using namespace DirectXTK;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
 namespace
@@ -764,5 +764,5 @@ DXTKAPI void SoundEffectInstanceBase::Apply3D(const AudioListener& listener, con
 }
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

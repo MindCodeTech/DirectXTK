@@ -14,10 +14,10 @@
 #pragma once
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
-NAMESPACE_DirectX
+namespace_DirectX
 
 // Derive from this to customize operator new and delete for
 // types that have special heap alignment requirements.
@@ -62,8 +62,8 @@ struct AlignedNew
 	}
 };
 
-NAMESPACE_DirectX_END
+namespace_DirectX_end
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

@@ -16,10 +16,10 @@
 using namespace DirectXTK;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
-NAMESPACE_DirectX
+namespace_DirectX
 
 // Helper for reading binary data, either from the filesystem a memory buffer.
 class DXTKAPI BinaryReader
@@ -66,8 +66,8 @@ private:
 	BinaryReader& operator= (BinaryReader const&);
 };
 
-NAMESPACE_DirectX_END
+namespace_DirectX_end
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

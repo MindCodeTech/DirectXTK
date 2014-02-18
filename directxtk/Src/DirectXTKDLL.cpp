@@ -11,6 +11,12 @@
 // http://go.microsoft.com/fwlink/?LinkId=320437
 //--------------------------------------------------------------------------------------
 
+#ifndef _PCH_BUILD
+#define _PCH_BUILD 0
+#endif
+
+#include "pch.h"
+
 // Exclude rarely-used stuff from Windows headers
 #ifndef VC_EXTRALEAN
 #define VC_EXTRALEAN
@@ -29,50 +35,43 @@
 #include <windows.h>
 #endif
 
-BOOL WINAPI DllMain(
-	_In_  HINSTANCE hinstDLL, 
+BOOL WINAPI DllMain(_In_  HINSTANCE hinstDLL,
 	_In_  DWORD fdwReason,
-	_In_  LPVOID lpvReserved )
+	_In_  LPVOID lpvReserved)
 {
-  hinstDLL = hinstDLL;
-  fdwReason = fdwReason;
-  lpvReserved = lpvReserved;
+	hinstDLL = hinstDLL;
+	fdwReason = fdwReason;
+	lpvReserved = lpvReserved;
 
-  // Perform actions based on the reason for calling.
-  switch( fdwReason ) 
-  { 
-  case DLL_PROCESS_ATTACH:
-	  // Initialize once for each new process.
-	  // Return FALSE to fail DLL load.
-	  {
-		  break;
-	  }
+	// Perform actions based on the reason for calling.
+	switch (fdwReason)
+	{
+	case DLL_PROCESS_ATTACH:
+		// Initialize once for each new process.
+		// Return FALSE to fail DLL load.
+	{
+							   break;
+	}
 
-  case DLL_THREAD_ATTACH:
-	  // Do thread-specific initialization.
-	  {
-		  break;
-	  }
+	case DLL_THREAD_ATTACH:
+		// Do thread-specific initialization.
+	{
+							  break;
+	}
 
-  case DLL_THREAD_DETACH:
-	  // Do thread-specific cleanup.
-	  {
-		  break;
-	  }
+	case DLL_THREAD_DETACH:
+		// Do thread-specific cleanup.
+	{
+							  break;
+	}
 
-  case DLL_PROCESS_DETACH:
-	  // Perform any necessary cleanup.
-	  {
-		  break;
-	  }
-  }
+	case DLL_PROCESS_DETACH:
+		// Perform any necessary cleanup.
+	{
+							   break;
+	}
+	}
 
-  return TRUE;  // Successful DLL_PROCESS_ATTACH.
+	return TRUE;  // Successful DLL_PROCESS_ATTACH.
 
 }
-
-#ifndef _PCH_BUILD
-#define _PCH_BUILD 0
-#endif
-
-#include "pch.h"

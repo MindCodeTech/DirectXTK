@@ -20,7 +20,7 @@ using namespace Microsoft::WRL;
 using namespace DirectXTK;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
 // Internal PrimitiveBatch implementation class.
@@ -325,5 +325,5 @@ DXTKAPI void PrimitiveBatchBase::Draw(D3D11_PRIMITIVE_TOPOLOGY topology, bool is
 }
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

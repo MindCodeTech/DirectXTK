@@ -14,10 +14,10 @@
 #pragma once
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
-NAMESPACE_DirectX
+namespace_DirectX
 
 // Vertex struct holding position and color information.
 struct DXTKAPI VertexPositionColor
@@ -310,8 +310,8 @@ struct DXTKAPI VertexPositionNormalTangentColorTextureSkinning : public VertexPo
 	static const D3D11_INPUT_ELEMENT_DESC InputElements[InputElementCount];
 };
 
-NAMESPACE_DirectX_END
+namespace_DirectX_end
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

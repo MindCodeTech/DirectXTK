@@ -14,12 +14,12 @@
 #pragma once
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
-NAMESPACE_DirectX
+namespace_DirectX
 
-NAMESPACE_Internal
+namespace_Internal
 
 // Base class, not to be used directly: clients should access this via the derived PrimitiveBatch<T>.
 class DXTKAPI PrimitiveBatchBase
@@ -50,7 +50,7 @@ private:
 	PrimitiveBatchBase& operator= (PrimitiveBatchBase const&);
 };
 
-NAMESPACE_Internal_END
+namespace_Internal_end
 
 // Template makes the API typesafe, eg. PrimitiveBatch<VertexPositionColor>.
 template<typename TVertex>
@@ -129,8 +129,8 @@ public:
 	}
 };
 
-NAMESPACE_DirectX_END
+namespace_DirectX_end
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

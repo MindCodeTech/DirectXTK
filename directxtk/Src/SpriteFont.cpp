@@ -20,7 +20,7 @@ using namespace Microsoft::WRL;
 using namespace DirectXTK;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
 // Internal SpriteFont implementation class.
@@ -50,7 +50,7 @@ DXTKAPI const XMFLOAT2 SpriteFont::Float2Zero(0, 0);
 static const char spriteFontMagic[] = "DXTKfont";
 
 // Comparison operators make our sorted glyph vector work with std::binary_search and lower_bound.
-NAMESPACE_DirectX
+namespace_DirectX
 
 static inline bool operator< (SpriteFont::Glyph const& left, SpriteFont::Glyph const& right)
 {
@@ -67,7 +67,7 @@ static inline bool operator< (SpriteFont::Glyph const& left, wchar_t right)
 	return left.Character < right;
 }
 
-NAMESPACE_DirectX_END
+namespace_DirectX_end
 
 // Reads a SpriteFont from the binary format created by the MakeSpriteFont utility.
 DXTKAPI SpriteFont::Impl::Impl(_In_ ID3D11Device* device, _In_ BinaryReader* reader)
@@ -353,5 +353,5 @@ DXTKAPI bool SpriteFont::ContainsCharacter(wchar_t character) const
 }
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

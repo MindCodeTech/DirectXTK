@@ -16,10 +16,10 @@
 #include "SpriteBatch.h"
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
-NAMESPACE_DirectX
+namespace_DirectX
 
 class DXTKAPI SpriteFont
 {
@@ -72,8 +72,8 @@ private:
 	SpriteFont& operator= (SpriteFont const&);
 };
 
-NAMESPACE_DirectX_END
+namespace_DirectX_end
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

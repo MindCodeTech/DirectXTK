@@ -13,9 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DLL", "DLL", "{EE463DFF-2A3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LIB", "LIB", "{E1FABD18-AB34-4A4D-A1A8-612ED68C0ABE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTKs", "Projects\LIB\DirectXTKs_Desktop.vcxproj", "{66CB076C-7A5B-432E-9E04-1390CB7F715D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTKs", "Projects\LIB\DirectXTK_Desktop.vcxproj", "{66CB076C-7A5B-432E-9E04-1390CB7F715D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xwbtool_Desktop_2013", "directxtk\XWBTool\xwbtool_Desktop_2013.vcxproj", "{C7AB4186-54B2-4244-A533-77494763EA1D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xwbtool_Desktop_2013", "Projects\XWBTool\xwbtool_Desktop_2013.vcxproj", "{C7AB4186-54B2-4244-A533-77494763EA1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

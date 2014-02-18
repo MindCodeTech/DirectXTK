@@ -24,12 +24,12 @@ using namespace DirectXTK;
 //
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
-NAMESPACE_DirectX
+namespace_DirectX
 
-NAMESPACE_EffectDirtyFlags
+namespace_EffectDirtyFlags
 
 const int ConstantBufferMaterial = 0x10000;
 const int ConstantBufferLight = 0x20000;
@@ -37,9 +37,9 @@ const int ConstantBufferObject = 0x40000;
 const int ConstantBufferMisc = 0x80000;
 const int ConstantBufferBones = 0x100000;
 
-NAMESPACE_EffectDirtyFlags_END
+namespace_EffectDirtyFlags_end
 
-NAMESPACE_DirectX_END
+namespace_DirectX_end
 
 using namespace DirectX;
 
@@ -842,5 +842,5 @@ DXTKAPI void DGSLEffect::ResetBoneTransforms()
 }
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

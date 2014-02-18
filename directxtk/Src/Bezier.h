@@ -16,10 +16,10 @@
 using namespace DirectXTK;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
-NAMESPACE_Bezier
+namespace_Bezier
 
 // Performs a cubic bezier interpolation between four control points,
 // returning the value at the specified time (t ranges 0 to 1).
@@ -165,8 +165,8 @@ void CreatePatchIndices(size_t tessellation, bool isMirrored, TOutputFunc output
 	}
 }
 
-NAMESPACE_Bezier_END
+namespace_Bezier_end
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

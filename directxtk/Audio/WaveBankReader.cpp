@@ -21,7 +21,7 @@
 using namespace DirectXTK;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
 namespace
@@ -1386,5 +1386,5 @@ DXTKAPI HANDLE WaveBankReader::GetAsyncHandle() const
 }
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

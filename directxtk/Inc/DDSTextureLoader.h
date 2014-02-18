@@ -22,11 +22,11 @@
 using namespace DirectX;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
-NAMESPACE_DirectXTK
-NAMESPACE_DDSTextureLoader
+namespace_DirectXTK
+namespace_DDSTextureLoader
 
 //     enum DDS_ALPHA_MODE
 //     {
@@ -81,9 +81,9 @@ DXTKAPI HRESULT CreateDDSTextureFromFileEx(_In_ ID3D11Device* d3dDevice,
 	_Out_opt_ DDS_ALPHA_MODE* alphaMode = nullptr
 	);
 
-NAMESPACE_DDSTextureLoader_END
-NAMESPACE_DirectXTK_END
+namespace_DDSTextureLoader_end
+namespace_DirectXTK_end
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

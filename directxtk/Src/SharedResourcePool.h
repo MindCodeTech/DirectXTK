@@ -16,10 +16,10 @@
 #include "PlatformHelpers.h"
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
-NAMESPACE_DirectX
+namespace_DirectX
 
 // Pool manager ensures that only a single TData instance is created for each unique TKey.
 // This is used to avoid duplicate resource creation, so that for instance a caller can
@@ -102,8 +102,8 @@ private:
 	SharedResourcePool& operator= (SharedResourcePool const&);
 };
 
-NAMESPACE_DirectX_END
+namespace_DirectX_end
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

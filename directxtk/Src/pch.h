@@ -11,7 +11,9 @@
 // http://go.microsoft.com/fwlink/?LinkId=248929
 //--------------------------------------------------------------------------------------
 
+#ifdef _MSC_VER
 #pragma once
+#endif
 
 #ifndef UNICODE
 #error "DirectXTK requires a Unicode build."
@@ -31,12 +33,11 @@
 #define STRICT
 #endif
 
-#ifndef _INC_SDKDDKVER
-#include <sdkddkver.h>
-#endif
+#include <windows.h>
 
-// If app hasn't choosen, set to work with Windows Vista and beyond
-#if _WIN32_WINNT < _WIN32_WINNT_WIN8
+// If app hasn't choosen, set to work with Windows 8 and beyond
+#if !defined(WINAPI_FAMILY) || (WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP)
+#if defined(_WIN32_WINNT) && (_WIN32_WINNT < _WIN32_WINNT_WIN8)
 #undef _WIN32_WINNT
 #endif
 #ifndef _WIN32_WINNT
@@ -48,14 +49,15 @@
 #ifndef _WIN32_WINDOWS
 #define _WIN32_WINDOWS _WIN32_WINNT
 #endif
+#endif
 
-#if (_WIN32_WINNT >= _WIN32_WINNT_WIN8) && !defined(DXGI_1_2_FORMATS)
+#if defined(_WIN32_WINNT) && (_WIN32_WINNT >= _WIN32_WINNT_WIN8) && !defined(DXGI_1_2_FORMATS)
 #define DXGI_1_2_FORMATS
 #endif
 
 #include "DirectXTKexp.h"
 
-#if defined(_MSC_VER) && defined(DXTKLIB_EXPORTS) || defined(_LIB) || defined(DXTKLIB_IMPORTS) || defined(_DLL) && !defined(DXUT_AUTOLIB)
+#if defined(_MSC_VER) && defined(DXTKLIB_EXPORTS) || defined(_LIB) || defined(DXTKLIB_IMPORTS) || defined(_DLL)
 #define DXTK_AUTOLIB 0
 #endif
 
@@ -63,37 +65,30 @@
 #if !defined(DXUT_AUTOLIB) && !defined(EFFECTS11_AUTOLIB)&& !defined(DXTEX_AUTOLIB)
 #ifdef DXTK_AUTOLIB
 #pragma comment( lib, "d3d11.lib" )
-// #pragma comment( lib, "d3d10_1.lib" )
-// #pragma comment( lib, "d3d10.lib" )
 #pragma comment( lib, "ComCtl32.Lib" )
 #pragma comment( lib, "dxgi.lib" )
 #pragma comment( lib, "dxguid.lib" )
-// #pragma comment( lib, "d3dcompiler.lib" )
 // #pragma comment( lib, "ole32.lib" ) // included with additional include directories 
 // #pragma comment( lib, "uuid.lib" ) // included with additional include directories 
-#pragma comment( lib, "usp10.lib" )
-// #pragma comment( lib, "ddraw.lib" )
-#if (_WIN32_WINNT >= _WIN32_WINNT_WIN8) || defined(_WIN7_PLATFORM_UPDATE) && !defined(_XBOX_ONE)
+#pragma comment( lib, "USP10.Lib" )
+#if defined(_WIN32_WINNT) && (_WIN32_WINNT >= _WIN32_WINNT_WIN8) && (WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP) || defined(_WIN7_PLATFORM_UPDATE) && !defined(_XBOX_ONE)
 #pragma comment( lib, "d2d1.lib" )
 #endif
-// #pragma comment( lib, "dwrite.lib" )
-// #ifdef _DEBUG
-// #pragma comment( lib, "d3dcsxd.lib" )
-// #else
-// #pragma comment( lib, "d3dcsx.lib" )
-// #endif
 #pragma comment( lib, "WinMM.Lib" )
 #pragma comment( lib, "Imm32.Lib" )
 #pragma comment( lib, "Version.Lib" )
 #endif
 #endif
 
+
 #ifdef DXTKLIB_IMPORTS
+#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP) && (WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP)
+#if defined(_WIN32) && !defined(_WIN64)
 #ifdef DXTKLIB_DLL
 #ifdef _DEBUG
-#pragma comment( lib, "DirectXTK_d.Lib" )
+#pragma comment( lib, "DirectXTK_d.lib" )
 #else
-#pragma comment( lib, "DirectXTK.Lib" )
+#pragma comment( lib, "DirectXTK.lib" )
 #endif
 #elif DXTKLIB_STATIC
 #ifdef _DEBUG
@@ -101,121 +96,95 @@
 #else
 #pragma comment( lib, "DirectXTKs.lib" )
 #endif
+#endif
 #else
+#ifdef DXTKLIB_DLL
+#ifdef _DEBUG
+#pragma comment( lib, "DirectXTK64_d.lib" )
+#else
+#pragma comment( lib, "DirectXTK64.lib" )
+#endif
+#elif DXTKLIB_STATIC
+#ifdef _DEBUG
+#pragma comment( lib, "DirectXTKs64_d.lib" )
+#else
+#pragma comment( lib, "DirectXTKs64.lib" )
+#endif
+#endif
+#endif
+#elif defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_PC_APP) && (WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP)
+#if defined(_WIN32) && !defined(_WIN64) && !defined(_ARM)
+#ifdef DXTKLIB_DLL
+#ifdef _DEBUG
+#pragma comment( lib, "DirectXTKMetro_d.lib" )
+#else
+#pragma comment( lib, "DirectXTKMetro.lib" )
+#endif
+#elif DXTKLIB_STATIC
+#ifdef _DEBUG
+#pragma comment( lib, "DirectXTKsMetro_d.lib" )
+#else
+#pragma comment( lib, "DirectXTKsMetro.lib" )
+#endif
+#endif
+#elif defined(_WIN64) && !defined(_ARM)
+#ifdef DXTKLIB_DLL
+#ifdef _DEBUG
+#pragma comment( lib, "DirectXTKMetro64_d.lib" )
+#else
+#pragma comment( lib, "DirectXTKMetro64.lib" )
+#endif
+#elif DXTKLIB_STATIC
+#ifdef _DEBUG
+#pragma comment( lib, "DirectXTKsMetro64_d.lib" )
+#else
+#pragma comment( lib, "DirectXTKsMetro64.lib" )
+#endif
+#endif // DXTKLIB_DLL DXTKLIB_STATIC
+#else
+#ifdef DXTKLIB_DLL
+#ifdef _DEBUG
+#pragma comment( lib, "DirectXTKARM_d.lib" )
+#else
+#pragma comment( lib, "DirectXTKARM.lib" )
+#endif
+#elif DXTKLIB_STATIC
+#ifdef _DEBUG
+#pragma comment( lib, "DirectXTKsARM_d.lib" )
+#else
+#pragma comment( lib, "DirectXTKsARM.lib" )
+#endif
+#endif // DXTKLIB_DLL DXTKLIB_STATIC
+#endif // _WIN32 _WIN64 _ARM
+#elif defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
+#ifdef DXTKLIB_DLL
+#ifdef _DEBUG
+#pragma comment( lib, "DirectXTKARM_d.lib" )
+#else
+#pragma comment( lib, "DirectXTKARM.lib" )
+#endif
+#elif DXTKLIB_STATIC
+#ifdef _DEBUG
+#pragma comment( lib, "DirectXTKsARM_d.lib" )
+#else
+#pragma comment( lib, "DirectXTKsARM.lib" )
+#endif
+#endif // DXTKLIB_DLL DXTKLIB_STATIC
+#endif // WINAPI_FAMILY
+#if !defined(DXTKLIB_DLL) ||  !defined(DXTKLIB_STATIC)
 #pragma warning ("DXTKLIB_IMPORTS import librarys aren't defined")
 #endif
-#endif
+#endif  // DXTKLIB_IMPORTS
 
-#pragma warning(disable : 4067 4102 4127 4201 4251 4324 4481 4505 4616 4706 6326 6993 )
+// warning 4447 disabled wasking for threading model Platform::Array<Platform::String^>^ args
+#pragma warning(disable : 4067 4102 4127 4201 4251 4324 4447 4481 4505 4616 4706 6326 6993 )
 
 #pragma warning(push)
 #pragma warning(disable : 4005)
 
-#pragma pack(push)
-#pragma pack(8)
-
-// Standard Windows includes
-#include <windows.h>
-#include <ocidl.h>
-#include <initguid.h>
-#include <commctrl.h> // for InitCommonControls()
-#include <shellapi.h> // for ExtractIcon()
-#include <shlobj.h>
-#include <usp10.h>
-#include <dimm.h>
-#include <sal.h>
-#include <strsafe.h>
-#include <msctf.h>
-#include <mmsystem.h>
-#include <ks.h>
-#include <ole2.h>
-#include <wrl.h>
-#include <objbase.h>
-#include <mmreg.h>
-
-
-// Direct3D11 includes
-#if defined(_XBOX_ONE) && defined(_TITLE) && MONOLITHIC
-#include <d3d11_x.h>
-#define DCOMMON_H_INCLUDED
-#define NO_D3D11_DEBUG_NAME
-#else
-
-//#include <d3dcommon.h>
-#if (_WIN32_WINNT >= _WIN32_WINNT_WINBLUE) && !defined(_XBOX_ONE)
-#include <dxgi1_3.h>
-#include <d3d11_2.h>
-#include <d2d1_2.h>
-#elif (_WIN32_WINNT >= _WIN32_WINNT_WIN8) || defined(_WIN7_PLATFORM_UPDATE) && !defined(_XBOX_ONE)
-#include <dxgi1_2.h>
-#include <d3d11_1.h>
-#include <d2d1_1.h>
-#endif
-// #include <d3d11shader.h>
-// #include <d3dcompiler.h>
-// #include <d3dcsx.h>
-#endif
-
-#if defined(DEBUG) || defined(_DEBUG)
-#include <dxgidebug.h>
-#endif
-
-// DirectXMath includes
-#include <DirectXMath.h>
-#include <DirectXColors.h>
-#include <directxpackedvector.h>
-#include <DirectXCollision.h>
-
-// WIC includes
-#if !defined(WINAPI_FAMILY) || (WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP)
-#include <wincodec.h>
-#endif
-
-#if defined(_XBOX_ONE) && defined(_TITLE)
-#include <xma2defs.h>
-#pragma comment(lib,"acphal.lib")
-#endif
-
-#if defined(WINAPI_FAMILY) && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
-#pragma comment(lib,"PhoneAudioSes.lib")
-#endif
-
-#if (_WIN32_WINNT >= 0x0602 /*_WIN32_WINNT_WIN8*/)
-#if defined(_MSC_VER) && (_MSC_VER < 1700)
-#error DirectX Tool Kit for Audio does not support VS 2010 without the DirectX SDK 
-#endif
-#include <xaudio2.h>
-#include <xaudio2fx.h>
-#include <x3daudio.h>
-#include <xapofx.h>
-#pragma comment(lib,"xaudio2.lib")
-#else
-// Using XAudio 2.7 requires the DirectX SDK
-#include <C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\comdecl.h>
-#include <C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xaudio2.h>
-#include <C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xaudio2fx.h>
-#include <C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xapofx.h>
-#pragma warning(push)
-#pragma warning( disable : 4005 )
-#include <C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\x3daudio.h>
-#pragma warning(pop)
-#pragma comment(lib,"x3daudio.lib")
-#pragma comment(lib,"xapofx.lib")
-#endif
-
-// XInput includes
-#include <xinput.h>
-
-/*
-#include <ddraw.h>
-#include <dwrite.h>
-#include <dxtmpl.h>
-*/
-
-#pragma pack (pop)
-
 // STL includes
 #include <assert.h>
+#include <tchar.h>
 #include <wchar.h>
 #include <new.h>      // for placement new
 #include <math.h>
@@ -247,11 +216,110 @@
 #include <omp.h>
 #endif
 
+#pragma pack(push)
+#pragma pack(8)
+
+// Standard Windows includes
+#include <ocidl.h>
+#include <initguid.h>
+#include <commctrl.h> // for InitCommonControls()
+#include <shellapi.h> // for ExtractIcon()
+#include <shlobj.h>
+#include <usp10.h>
+#include <dimm.h>
+#include <sal.h>
+#include <strsafe.h>
+#include <msctf.h>
+#include <mmsystem.h>
+#include <ks.h>
+#include <ole2.h>
+#include <wrl.h>
+#include <objbase.h>
+#include <mmreg.h>
+
+
+// Direct3D11 includes
+#if defined(_XBOX_ONE) && defined(_TITLE) && MONOLITHIC
+#include <d3d11_x.h>
+#define DCOMMON_H_INCLUDED
+#define NO_D3D11_DEBUG_NAME
+#endif
+
+//#include <d3dcommon.h>
+#if !defined(WINAPI_FAMILY) || (WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP)
+#if defined(_WIN32_WINNT) && (_WIN32_WINNT >= _WIN32_WINNT_WINBLUE) && !defined(_XBOX_ONE)
+#include <dxgi1_3.h>
+#include <d3d11_2.h>
+#include <d2d1_2.h>
+#elif defined(_WIN32_WINNT) && (_WIN32_WINNT >= _WIN32_WINNT_WIN8) || defined(_WIN7_PLATFORM_UPDATE) && !defined(_XBOX_ONE)
+#include <dxgi1_2.h>
+#include <d3d11_1.h>
+#include <d2d1_1.h>
+#endif
+#else  // check winphone includes
+#include <dxgi1_2.h>
+#include <d3d11_1.h>
+
+#endif
+
+#if defined(DEBUG) || defined(_DEBUG)
+#include <dxgidebug.h>
+#endif
+
+// DirectXMath includes
+#include <DirectXMath.h>
+#include <DirectXColors.h>
+#include <directxpackedvector.h>
+#include <DirectXCollision.h>
+
+// WIC includes
+#if !defined(WINAPI_FAMILY) || (WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP)
+#include <wincodec.h>
+#endif
+
+#if defined(_XBOX_ONE) && defined(_TITLE)
+#include <xma2defs.h>
+#pragma comment(lib,"acphal.lib")
+#endif
+
+#if defined(WINAPI_FAMILY) && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#pragma comment(lib,"PhoneAudioSes.lib")
+#endif
+
+#if defined(_WIN32_WINNT) && (_WIN32_WINNT >= _WIN32_WINNT_WIN8 /*_WIN32_WINNT_WIN8*/)
+#if defined(_MSC_VER) && (_MSC_VER < 1700)
+#error DirectX Tool Kit for Audio does not support VS 2010 without the DirectX SDK 
+#endif
+#include <xaudio2.h>
+#include <xaudio2fx.h>
+#include <x3daudio.h>
+#include <xapofx.h>
+#pragma comment(lib,"xaudio2.lib")
+#else
+// Using XAudio 2.7 requires the DirectX SDK
+#include <C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\comdecl.h>
+#include <C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xaudio2.h>
+#include <C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xaudio2fx.h>
+#include <C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xapofx.h>
+#pragma warning(push)
+#pragma warning( disable : 4005 )
+#include <C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\x3daudio.h>
+#pragma warning(pop)
+#pragma comment(lib,"x3daudio.lib")
+#pragma comment(lib,"xapofx.lib")
+#endif
+
+// XInput includes
+#if !defined(WINAPI_FAMILY) || (WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP)
+#include <xinput.h>
+#endif
+
+#pragma pack (pop)
+
+
 #if defined(_XBOX_ONE) && defined(_TITLE)
 #include <apu.h>
 #endif
-
-using namespace std;
 
 // CRT's memory leak detection
 #if defined(DEBUG) || defined(_DEBUG)
@@ -260,69 +328,15 @@ using namespace std;
 
 #pragma warning(pop)
 
-// Enable extra D3D debugging in debug builds if using the debug DirectX runtime.
-// This makes D3D objects work well in the debugger watch window, but slows down
-// performance slightly.
-#if defined(DEBUG) || defined(_DEBUG)
-#define D3D_DEBUG_INFO
-#endif
-
-//#undef min // use __min instead
-//#undef max // use __max instead
-
-#if !(UNUSED == -1) && !defined(UNUSED)
-#define UNUSED -1
-#endif
 
 /*
-NAMESPACE_DirectX
+namespace_DirectX
 #if (DIRECTXMATH_VERSION < 305) && !defined(XM_CALLCONV)
 #define XM_CALLCONV __fastcall
 typedef const XMVECTOR& HXMVECTOR;
 typedef const XMMATRIX& FXMMATRIX;
 #endif
-NAMESPACE_DirectX_END*/
-
-#ifndef SAFE_DELETE
-#define SAFE_DELETE(p)       { if (p) { delete (p);     (p) = nullptr; } }
-#endif
-#ifndef SAFE_DELETE_ARRAY
-#define SAFE_DELETE_ARRAY(p) { if (p) { delete[] (p);   (p) = nullptr; } }
-#endif
-#ifndef SAFE_RELEASE
-#define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p) = nullptr; } }
-#endif
-
-#ifndef SAFE_ADDREF
-#define SAFE_ADDREF(p)        { if (p) { (p)->AddRef(); } }
-#endif
-
-#if FXDEBUG
-#define __BREAK_ON_FAIL       { __debugbreak(); }
-#else
-#define __BREAK_ON_FAIL 
-#endif
-
-
-#define VA(x, action) { hr = (x); if (FAILED(hr)) { action; __BREAK_ON_FAIL;                     return hr;  } }
-#define VNA(x,action) {           if (!(x))       { action; __BREAK_ON_FAIL; hr = E_OUTOFMEMORY; goto lExit; } }
-#define VBA(x,action) {           if (!(x))       { action; __BREAK_ON_FAIL; hr = E_FAIL;        goto lExit; } }
-#define VHA(x,action) { hr = (x); if (FAILED(hr)) { action; __BREAK_ON_FAIL;                     goto lExit; } }
-
-#ifndef V
-#define V(x)          { VA (x, 0) }
-#endif
-#define VN(x)         { VNA(x, 0) }
-#define VB(x)         { VBA(x, 0) }
-#define VH(x)         { VHA(x, 0) }
-
-#define VBD(x,str)         { VBA(x, DPF(1,str)) }
-#define VHD(x,str)         { VHA(x, DPF(1,str)) }
-
-#define VEASSERT(x)   { hr = (x); if (FAILED(hr)) { __BREAK_ON_FAIL; assert(!#x);                     goto lExit; } }
-#define VNASSERT(x)   {           if (!(x))       { __BREAK_ON_FAIL; assert(!#x); hr = E_OUTOFMEMORY; goto lExit; } }
-
-#define D3DX11FLTASSIGN(a,b)    { *reinterpret_cast< UINT32* >(&(a)) = *reinterpret_cast< UINT32* >(&(b)); }
+namespace_DirectX_end*/
 
 
 		//--------------------------------------------------------------------------------------
@@ -384,11 +398,6 @@ NAMESPACE_DirectX_END*/
 #ifndef _Use_decl_annotations_
 #define _Use_decl_annotations_
 #endif
-
-#ifndef offsetof_fx
-#define offsetof_fx( a, b ) (uint32_t)offsetof( a, b )
-#endif
-
 
 
 ///////////////////////////////////////////////////////////////////////////////

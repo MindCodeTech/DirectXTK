@@ -16,10 +16,10 @@
 #include "PlatformHelpers.h"
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
-NAMESPACE_DirectX
+namespace_DirectX
 
 // Helper for lazily creating a D3D resource.
 template<typename T, typename TCreateFunc>
@@ -52,8 +52,8 @@ static T* DemandCreate(Microsoft::WRL::ComPtr<T>& comPtr, std::mutex& mutex, TCr
 	return result;
 }
 
-NAMESPACE_DirectX_END
+namespace_DirectX_end
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

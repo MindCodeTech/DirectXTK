@@ -19,10 +19,10 @@
 using namespace DirectXTK;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
-NAMESPACE_DirectX
+namespace_DirectX
 
     // Helper for getting a format tag from a WAVEFORMATEX
     inline uint32_t GetFormatTag( const WAVEFORMATEX* wfx )
@@ -319,8 +319,8 @@ DXTKAPI void CreateXMA2( _Out_writes_bytes_(wfxSize) WAVEFORMATEX* wfx, size_t w
         X3DAUDIO_DSP_SETTINGS       mDSPSettings;
    };
 
-NAMESPACE_DirectX_END
+namespace_DirectX_end
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

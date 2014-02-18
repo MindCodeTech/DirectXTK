@@ -21,89 +21,87 @@
 #endif
 
 
-#define NAMESPACE_DirectX namespace DirectX {
-#define NAMESPACE_DirectX_END }
+#define namespace_DirectX namespace DirectX {
+#define namespace_DirectX_end }
 
-#define NAMESPACE_DirectXTK namespace DirectXTK {
-#define NAMESPACE_DirectXTK_END }
+#define namespace_DirectXTK namespace DirectXTK {
+#define namespace_DirectXTK_end }
 
-#define NAMESPACE_Internal namespace Internal {
-#define NAMESPACE_Internal_END }
+#define namespace_Internal namespace Internal {
+#define namespace_Internal_end }
 
-#define NAMESPACE_SimpleMath namespace SimpleMath {
-#define NAMESPACE_SimpleMath_END }
+#define namespace_SimpleMath namespace SimpleMath {
+#define namespace_SimpleMath_end }
 
-#define NAMESPACE_std namespace std {
-#define NAMESPACE_std_END }
+#define namespace_std namespace std {
+#define namespace_std_end }
 
-#define NAMESPACE_EffectDirtyFlags namespace EffectDirtyFlags {
-#define NAMESPACE_EffectDirtyFlags_END }
+#define namespace_EffectDirtyFlags namespace EffectDirtyFlags {
+#define namespace_EffectDirtyFlags_end }
 
-#define NAMESPACE_Bezier namespace Bezier {
-#define NAMESPACE_Bezier_END }
+#define namespace_Bezier namespace Bezier {
+#define namespace_Bezier_end }
 
-#define NAMESPACE_DXUT namespace DXUT {
-#define NAMESPACE_DXUT_END }
+#define namespace_DXUT namespace DXUT {
+#define namespace_DXUT_end }
 
-#define NAMESPACE_VSD3DStarter namespace VSD3DStarter {
-#define NAMESPACE_VSD3DStarter_END }
+#define namespace_VSD3DStarter namespace VSD3DStarter {
+#define namespace_VSD3DStarter_end }
 
-#define NAMESPACE_DDSTextureLoader namespace DDSTextureLoader {
-#define NAMESPACE_DDSTextureLoader_END }
+#define namespace_DDSTextureLoader namespace DDSTextureLoader {
+#define namespace_DDSTextureLoader_end }
 
-#define NAMESPACE_WICTextureLoader namespace WICTextureLoader {
-#define NAMESPACE_WICTextureLoader_END }
+#define namespace_WICTextureLoader namespace WICTextureLoader {
+#define namespace_WICTextureLoader_end }
 
-#define NAMESPACE_ScreenGrab namespace ScreenGrab {
-#define NAMESPACE_ScreenGrab_END }
+#define namespace_ScreenGrab namespace ScreenGrab {
+#define namespace_ScreenGrab_end }
 
 
-//#define extern_cplus
-
-// Defined for Templates functions export
-#define extern_cplusplus
-
-#ifndef EXTERN_C_BEGIN
 #ifdef __cplusplus
-#ifdef extern_cplus
 #define EXTERN_C_BEGIN extern "C" {
 #define EXTERN_C_END }
-#endif
-#ifdef extern_cplusplus
-#define EXTERN_C_BEGIN extern "C++" {
-#define EXTERN_C_END }
-#endif
+#define EXTERN_CC_BEGIN extern "C++" {
+#define EXTERN_CC_END }
 #else
 #define EXTERN_C_BEGIN
 #define EXTERN_C_END
-#endif
-#endif
-
-#ifdef __cplusplus
-EXTERN_C_BEGIN
+#define EXTERN_CC_BEGIN
+#define EXTERN_CC_END
 #endif
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_BEGIN
 #endif
 
 #ifdef __cplusplus
-#if defined(extern_cplus)
-#define _EXTERN extern "C"
-#elif defined(extern_cplusplus)
-#define _EXTERN extern "C++"
+EXTERN_CC_END
 #endif
-#else
+
+#ifdef __cplusplus
+#ifndef _EXTERNC
+#define _EXTERNC extern "C"
+#endif
+#ifndef _EXTERNCC
+#define _EXTERNCC extern "C++"
+#endif
+#ifndef _EXTERN
 #define _EXTERN extern
 #endif
+#else
+#ifndef _EXTERN
+#define _EXTERN extern
+#endif
+#endif
+
 
 #ifdef __cplusplus
-#if defined(extern_cplus)
-#define DXTKEXTERN extern "C"
-#elif defined(extern_cplusplus)
-#define DXTKEXTERN extern "C++"
-#endif
+#define DXTKEXTERNC extern "C"
+#define DXTKEXTERNCC extern "C++"
+#define DXTKEXTERN extern
 #else
+#define DXTKEXTERNC
+#define DXTKEXTERNCC
 #define DXTKEXTERN extern
 #endif
 

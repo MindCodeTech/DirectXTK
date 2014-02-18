@@ -387,9 +387,7 @@
       <PreventDllBinding>false</PreventDllBinding>
       <KeyContainer>DirectXTK</KeyContainer>
     </Link>
-    <Manifest>
-      <EnableDPIAwareness>false</EnableDPIAwareness>
-    </Manifest>
+    <Manifest />
     <PreBuildEvent>
       <Command>
       </Command>
@@ -405,6 +403,7 @@ copy $(OutDir)$(TargetName).pdb  $(D3D11DEMOS_ROOT)\Bin32</Command>
       <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;..\..\directxtk\Audio;..\..\directxtk\Resources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN32;WIN32;LIB_EXPORT;_DLL;_DEBUG;DEBUG;_WIN32_WINNT=0x0602;_WIN7_PLATFORM_UPDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
+    <Manifest />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -434,9 +433,7 @@ copy $(OutDir)$(TargetName).pdb  $(D3D11DEMOS_ROOT)\Bin32</Command>
       <PreventDllBinding>false</PreventDllBinding>
       <KeyContainer>DirectXTK</KeyContainer>
     </Link>
-    <Manifest>
-      <EnableDPIAwareness>false</EnableDPIAwareness>
-    </Manifest>
+    <Manifest />
     <PreBuildEvent>
       <Command>
       </Command>
@@ -452,6 +449,7 @@ copy $(OutDir)$(TargetName).pdb  $(D3D11DEMOS_ROOT)\Bin64</Command>
       <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;..\..\directxtk\Audio;..\..\directxtk\Resources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN32;WIN32;LIB_EXPORT;_DLL;_DEBUG;DEBUG;_WIN32_WINNT=0x0602;_WIN7_PLATFORM_UPDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
+    <Manifest />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -487,11 +485,8 @@ copy $(OutDir)$(TargetName).pdb  $(D3D11DEMOS_ROOT)\Bin64</Command>
       </DelayLoadDLLs>
       <KeyContainer>DirectXTK</KeyContainer>
       <PreventDllBinding>false</PreventDllBinding>
-      <ImageHasSafeExceptionHandlers />
     </Link>
-    <Manifest>
-      <EnableDPIAwareness>false</EnableDPIAwareness>
-    </Manifest>
+    <Manifest />
     <PreBuildEvent />
     <PostBuildEvent>
       <Command>copy $(OutDir)$(TargetName)$(TargetExt) $(DIRECTXTK_ROOT)\Bin32
@@ -502,6 +497,7 @@ copy $(OutDir)$(TargetName)$(TargetExt)  $(D3D11DEMOS_ROOT)\Bin32</Command>
       <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;..\..\directxtk\Audio;..\..\directxtk\Resources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN32;WIN32;LIB_EXPORT;_DLL;NDEBUG;_RELEASE;RELEASE;_WIN32_WINNT=0x0602;_WIN7_PLATFORM_UPDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
+    <Manifest />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -540,9 +536,7 @@ copy $(OutDir)$(TargetName)$(TargetExt)  $(D3D11DEMOS_ROOT)\Bin32</Command>
       <KeyContainer>DirectXTK</KeyContainer>
       <PreventDllBinding>false</PreventDllBinding>
     </Link>
-    <Manifest>
-      <EnableDPIAwareness>false</EnableDPIAwareness>
-    </Manifest>
+    <Manifest />
     <PreBuildEvent />
     <PostBuildEvent>
       <Command>copy $(OutDir)$(TargetName)$(TargetExt) $(DIRECTXTK_ROOT)\Bin64
@@ -553,6 +547,7 @@ copy $(OutDir)$(TargetName)$(TargetExt)  $(D3D11DEMOS_ROOT)\Bin64</Command>
       <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;..\..\directxtk\Audio;..\..\directxtk\Resources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN32;WIN32;LIB_EXPORT;_DLL;NDEBUG;_RELEASE;RELEASE;_WIN32_WINNT=0x0602;_WIN7_PLATFORM_UPDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
+    <Manifest />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">
     <ClCompile>
@@ -584,9 +579,7 @@ copy $(OutDir)$(TargetName)$(TargetExt)  $(D3D11DEMOS_ROOT)\Bin64</Command>
       <KeyContainer>DirectXTK</KeyContainer>
       <PreventDllBinding>false</PreventDllBinding>
     </Link>
-    <Manifest>
-      <EnableDPIAwareness>false</EnableDPIAwareness>
-    </Manifest>
+    <Manifest />
     <PreBuildEvent />
     <PostBuildEvent>
       <Command>copy $(OutDir)$(TargetName)$(TargetExt) $(DIRECTXTK_ROOT)\Bin32
@@ -601,6 +594,7 @@ copy $(OutDir)$(TargetName).pdb  $(D3D11DEMOS_ROOT)\Bin32</Command>
       </UndefinePreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;..\..\directxtk\Audio;..\..\directxtk\Resources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
+    <Manifest />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profile|X64'">
     <ClCompile>
@@ -632,9 +626,7 @@ copy $(OutDir)$(TargetName).pdb  $(D3D11DEMOS_ROOT)\Bin32</Command>
       <KeyContainer>DirectXTK</KeyContainer>
       <PreventDllBinding>false</PreventDllBinding>
     </Link>
-    <Manifest>
-      <EnableDPIAwareness>false</EnableDPIAwareness>
-    </Manifest>
+    <Manifest />
     <PreBuildEvent />
     <PostBuildEvent>
       <Command>copy $(OutDir)$(TargetName)$(TargetExt) $(DIRECTXTK_ROOT)\Bin64
@@ -649,6 +641,7 @@ copy $(OutDir)$(TargetName).pdb  $(D3D11DEMOS_ROOT)\Bin64</Command>
       </UndefinePreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\directxtk\Inc;..\..\directxtk\Src;..\..\directxtk\Audio;..\..\directxtk\Resources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
+    <Manifest />
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

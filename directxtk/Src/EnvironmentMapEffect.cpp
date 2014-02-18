@@ -19,7 +19,7 @@ using namespace Microsoft::WRL;
 using namespace DirectXTK;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
 // Constant buffer layout. Must match the shader!
@@ -467,5 +467,5 @@ DXTKAPI void EnvironmentMapEffect::SetFresnelFactor(float value)
 }
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

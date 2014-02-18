@@ -29,7 +29,7 @@ using namespace DDSTextureLoader;
 using namespace WICTextureLoader;
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
 // Internal EffectFactory implementation class. Only one of these helpers is allocated
@@ -345,5 +345,5 @@ DXTKAPI void EffectFactory::SetDirectory(_In_opt_z_ const WCHAR* path)
 }
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

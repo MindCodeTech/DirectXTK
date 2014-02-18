@@ -16,10 +16,10 @@
 #pragma once
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
-NAMESPACE_DirectX
+namespace_DirectX
 
 DXTKAPI HRESULT LoadWAVAudioInMemory(_In_reads_bytes_(wavDataSize) const uint8_t* wavData,
                                   _In_ size_t wavDataSize,
@@ -52,8 +52,8 @@ DXTKAPI HRESULT LoadWAVAudioFromFileEx(_In_z_ const wchar_t* szFileName,
                                     _Out_ WAVData& result );
 
 
-NAMESPACE_DirectX_END
+namespace_DirectX_end
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif

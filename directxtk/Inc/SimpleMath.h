@@ -23,12 +23,12 @@
 #include "DirectXCollision.h"
 
 #ifdef __cplusplus
-EXTERN_C_BEGIN
+EXTERN_CC_BEGIN
 #endif
 
-NAMESPACE_DirectX
+namespace_DirectX
 
-NAMESPACE_SimpleMath
+namespace_SimpleMath
 
 struct Vector4;
 struct Matrix;
@@ -681,13 +681,13 @@ public:
 };
 
 #include "SimpleMath.inl"
-NAMESPACE_SimpleMath_END; // namespace SimpleMath
+namespace_SimpleMath_end; // namespace SimpleMath
 
-NAMESPACE_DirectX_END; // namespace DirectX
+namespace_DirectX_end; // namespace DirectX
 
 //------------------------------------------------------------------------------
 // Support for SimpleMath and Standard C++ Library containers
-NAMESPACE_std
+namespace_std
 
 template<> struct less<DirectX::SimpleMath::Vector2>
 {
@@ -792,8 +792,8 @@ template<> struct less<DirectX::SimpleMath::Vector2>
 								}
 							};
 
-NAMESPACE_std_END // namespace std
+namespace_std_end // namespace std
 
 #ifdef __cplusplus
-EXTERN_C_END
+EXTERN_CC_END
 #endif
